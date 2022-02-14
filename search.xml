@@ -32,21 +32,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Github+Hexo搭建属于自己的免费博客（三）——设置评论系统</title>
-    <url>/2022/02/15/valine/</url>
-    <content><![CDATA[<h1>注册leanCould</h1>
-]]></content>
-      <categories>
-        <category>环境配置</category>
-        <category>个人博客搭建</category>
-      </categories>
-      <tags>
-        <tag>Github</tag>
-        <tag>hexo</tag>
-        <tag>leanCould</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Github+Hexo搭建属于自己的免费博客（一）——基本部署</title>
     <url>/2022/02/13/hexo_github/</url>
     <content><![CDATA[<p><em><a href="https://hexo.io/">本专题</a>用以记录我搭建博客的完整流程</em></p>
@@ -70,6 +55,21 @@
         <tag>Github</tag>
         <tag>hexo</tag>
         <tag>blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Github+Hexo搭建属于自己的免费博客（三）——设置评论系统</title>
+    <url>/2022/02/15/valine/</url>
+    <content><![CDATA[<h1>注册leanCould</h1>
+]]></content>
+      <categories>
+        <category>环境配置</category>
+        <category>个人博客搭建</category>
+      </categories>
+      <tags>
+        <tag>Github</tag>
+        <tag>hexo</tag>
+        <tag>leanCould</tag>
       </tags>
   </entry>
 </search>
