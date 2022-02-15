@@ -1,0 +1,267 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>关于出栈序列的解法总结及卡特兰数的学习（C语言） | Peninsula</title><meta name="keywords" content="C语言,算法,栈"><meta name="author" content="紫炁"><meta name="copyright" content="紫炁"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="出栈次序  一个栈(无穷大)的进栈序列为1，2，3，…，n，有多少个不同的出栈序列?  解法1——递归&#x2F;记忆化搜索  考虑用一个二维数组f[i][j]模拟当前情况：i——进栈序列中还有i个待排的数，j——栈中有j个数，f[i][j]的值表示当前i,j情况下有几种输出方案。 首先如果f[i][j]有值，直接调用即可（记忆化搜索，节省时间）； 如果i&#x3D;0，即序列全部入栈，只有一种输出方法，所以返回1；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于出栈序列的解法总结及卡特兰数的学习（C语言）">
+<meta property="og:url" content="http://skye-rs.github.io/2022/02/15/%E5%85%B3%E4%BA%8E%E5%87%BA%E6%A0%88%E5%BA%8F%E5%88%97%E7%9A%84%E8%A7%A3%E6%B3%95%E6%80%BB%E7%BB%93%E5%8F%8A%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0%E7%9A%84%E5%AD%A6%E4%B9%A0%EF%BC%88C%E8%AF%AD%E8%A8%80%EF%BC%89/index.html">
+<meta property="og:site_name" content="Peninsula">
+<meta property="og:description" content="出栈次序  一个栈(无穷大)的进栈序列为1，2，3，…，n，有多少个不同的出栈序列?  解法1——递归&#x2F;记忆化搜索  考虑用一个二维数组f[i][j]模拟当前情况：i——进栈序列中还有i个待排的数，j——栈中有j个数，f[i][j]的值表示当前i,j情况下有几种输出方案。 首先如果f[i][j]有值，直接调用即可（记忆化搜索，节省时间）； 如果i&#x3D;0，即序列全部入栈，只有一种输出方法，所以返回1；">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/cover/cover5.jpg">
+<meta property="article:published_time" content="2022-02-15T13:35:54.000Z">
+<meta property="article:modified_time" content="2022-02-15T02:45:00.329Z">
+<meta property="article:author" content="紫炁">
+<meta property="article:tag" content="C语言">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="栈">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/cover/cover5.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/猫爪.png"><link rel="canonical" href="http://skye-rs.github.io/2022/02/15/%E5%85%B3%E4%BA%8E%E5%87%BA%E6%A0%88%E5%BA%8F%E5%88%97%E7%9A%84%E8%A7%A3%E6%B3%95%E6%80%BB%E7%BB%93%E5%8F%8A%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0%E7%9A%84%E5%AD%A6%E4%B9%A0%EF%BC%88C%E8%AF%AD%E8%A8%80%EF%BC%89/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '关于出栈序列的解法总结及卡特兰数的学习（C语言）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-02-15 10:45:00'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/mycss.css"><meta name="generator" content="Hexo 6.0.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/头像.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">11</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/Skye-rs/CDN/cover/cover5.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Peninsula</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">关于出栈序列的解法总结及卡特兰数的学习（C语言）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-02-15T13:35:54.000Z" title="发表于 2022-02-15 21:35:54">2022-02-15</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-02-15T02:45:00.329Z" title="更新于 2022-02-15 10:45:00">2022-02-15</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/">程序设计</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.7k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="关于出栈序列的解法总结及卡特兰数的学习（C语言）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>出栈次序</h1>
+<blockquote>
+<p>一个栈(无穷大)的进栈序列为1，2，3，…，n，有多少个不同的出栈序列?</p>
+</blockquote>
+<h2 id="解法1——递归-记忆化搜索">解法1——递归/记忆化搜索</h2>
+<ol>
+<li>考虑用一个二维数组f[i][j]模拟当前情况：i——进栈序列中还有i个待排的数，j——栈中有j个数，f[i][j]的<strong>值</strong>表示当前i,j情况下有几种输出方案。</li>
+<li>首先如果f[i][j]有值，直接调用即可（记忆化搜索，节省时间）；</li>
+<li>如果i=0，即序列全部入栈，只有一种输出方法，所以返回1；</li>
+<li>考虑一般情况，有两种输出方案，先进一个再出，即加上f[i-1][j+1],（栈不空时,j&gt;0,如果栈空只有第一种输出方案可行）直接出，即加上f[i][j-1]。</li>
+</ol>
+<p><em>代码如下</em></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> f[MAX][MAX];</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> i,<span class="type">int</span> j)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span>(f[i][j])</span><br><span class="line">		<span class="keyword">return</span> f[i][j];</span><br><span class="line">	<span class="keyword">if</span> (i == <span class="number">0</span>)</span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">if</span>(j&gt;<span class="number">0</span>)</span><br><span class="line">		f[i][j] += dfs(i, j - <span class="number">1</span>);</span><br><span class="line">	f[i][j] += dfs(i - <span class="number">1</span>, j + <span class="number">1</span>);</span><br><span class="line">	<span class="keyword">return</span> f[i][j];</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> n;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>, &amp;n);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%lld&quot;</span>, dfs(n, <span class="number">0</span>));</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解法2——递推">解法2——递推</h2>
+<ol>
+<li>首先重设一下f[i][j],f的含义不变，i为入栈数，j为出栈数；</li>
+<li>我们知道f[0][j]=1，因为序列全部入栈，出栈次序是唯一的。</li>
+<li>然后我们来考虑一下递归关系，如何得到f[i][j]?即怎么得到i个数入栈，j个数出栈的情况，只需要有i-1个数入栈，出栈j个，此时再入栈一个就是f[i][j]；同理，可以是i个数入栈，j-1个出栈。所以我们得到递归关系f[i][j]=f[i-1][j]+f[i][j-1]。</li>
+<li>但涉及到出栈必须考虑栈空的情况，什么时候栈空？<strong>i=j</strong>时，就只有f[i][j]=f[i-1][j]。</li>
+</ol>
+<p><em>递归做法</em></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">long</span> f[MAX_N][MAX_N];</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">int</span> n;</span><br><span class="line">	<span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;=n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		f[<span class="number">0</span>][i]=<span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=n;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">int</span> j=i;j&lt;=n;j++)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span>(i==j)f[i][j]=f[i<span class="number">-1</span>][j];</span><br><span class="line">			<span class="keyword">else</span> f[i][j]=f[i][j<span class="number">-1</span>]+f[i<span class="number">-1</span>][j];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%lld&quot;</span>,f[n][n]);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="解法3——卡特兰数">解法3——卡特兰数</h2>
+<p>关于卡特兰数列的详细解释移步<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0/6125746?fr=aladdin">百度百科</a></p>
+<ul>
+<li>我们可以直接用的是它的四个递推公式</li>
+</ul>
+<blockquote>
+<p>设h(n)为catalan数的第n项，令h(0)=1,h(1)=1，catalan数满足递推式 ：<br>
+1)h(n)= h(0)*h(n-1)+h(1)*h(n-2) + … + h(n-1)<em>h(0) (n≥2)<br>
+2)h(n)=h(n-1) * (4</em>n-2)/(n+1)<br>
+3)h(n)=C(2n,n)/(n+1) (n=0,1,2,…)<br>
+4)h(n)=C(2n,n) - C(2n,n-1) (n=0,1,2,…)</p>
+</blockquote>
+<p><em>代码</em><br>
+<em><s>都有递推关系了代码不是有手就行</s></em></p>
+ <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"> <span class="comment">//给出公式4作为参照</span></span><br><span class="line"><span class="type">long</span> <span class="type">long</span> c[MAX][MAX];</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	<span class="type">int</span> n;</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;n);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">2</span>*n;i++)</span><br><span class="line">    &#123;</span><br><span class="line">    	c[i][<span class="number">0</span>]=c[i][i]=<span class="number">1</span>;</span><br><span class="line">    	<span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">1</span>;j&lt;i;j++)</span><br><span class="line">    	&#123;</span><br><span class="line">    		c[i][j]=c[i<span class="number">-1</span>][j]+c[i<span class="number">-1</span>][j<span class="number">-1</span>];</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%lld&quot;</span>,c[<span class="number">2</span>*n][n]-c[<span class="number">2</span>*n][n<span class="number">-1</span>]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="关键是分析为什么可以用卡特兰"><strong>关键</strong>是分析为什么可以用卡特兰</h3>
+<ul>
+<li><strong>原理分析</strong>：</li>
+<li>建立数组f。f[i]表示i个数的全部可能性。<br>
+f[0] = 1, f[1] = 1; //当然只有一个<br>
+设 x 为当前出栈序列的最后一个，则x有n种取值<br>
+由于x是最后一个出栈的，所以可以将已经出栈的数分成两部分<br>
+1.比x小<br>
+2.比x大<br>
+比x小的数有x-1个，所以这些数的全部出栈可能为f[x-1]<br>
+比x大的数有n-x个，所以这些数的全部出栈可能为f[n-x]<br>
+这两部分互相独立，所以根据乘法原理，一个x的取值能够得到的所有可能性为f[x-1] * f[n-x]<br>
+另外，由于x有n个取值，所以<br>
+ans = f[0]*f[n-1] + f[1]*f[n-2] + … + f[n-1]*f[0];</li>
+<li><strong>或者这样分析</strong>：</li>
+<li>我们把进栈设为状态‘1’，出栈设为状态‘0’。n个数的所有状态对应n个1和n个0组成的2n位二进制数。<br>
+那么合法序列就是总序列-非法序列，总序列(由n次出栈n次入栈操作构成的序列数)为C(2n,n)。<br>
+<strong>非法序列</strong>：由左而右扫描时，必然在某一奇数位2m+1位上首先出现m+1个0的累计数和m个1的累计数，此后的2(n-m)-1位上有n-m个 1和n-m-1个0。如若把后面这2(n-m)-1位上的0和1互换，使之成为n-m个0和n-m-1个1，<strong>结果得1个由n+1个0和n-1个1组成的2n位数</strong>，即<strong>一个不合要求的数对应于一个由n+1个0和n-1个1组成的排列</strong>。反过来，任何一个由n+1个0和n-1个1组成的2n位二进制数，由于0的个数多2个，2n为偶数，故必在某一个奇数位上出现0的累计数超过1的累计数。同样在后面部分0和1互换，使之成为由n个0和n个1组成的2n位数，即<strong>n+1个0和n-1个1组成的2n位数必对应一个不符合要求的数</strong>。<br>
+这就证明了<strong>不合要求的2n位数与n+1个0，n－1个1组成的排列一一对应。</strong>，为C(2n,n+1)<br>
+所以有<strong>输出序列的总数目=c(2n,n)-c(2n,n-1)=c(2n,n)/(n+1)=h(n)。</strong></li>
+</ul>
+<p>我觉得这类题目可以总结为==由特定顺序（二者匹配）的两种状态组成的排序数==类问题</p>
+<h3 id="类似题目有">类似题目有</h3>
+<blockquote>
+<p><strong>括号序列</strong>  ：n 对括号，则有多少种 “括号匹配” 的括号序列</p>
+</blockquote>
+<p>——左括号看作1，右括号看作0，和上题一样</p>
+<blockquote>
+<p><strong>二叉树</strong>n + 1 个叶子节点能够构成多少种形状不同的（国际）满二叉树<br>
+（国际）满二叉树定义：如果一棵二叉树的结点要么是叶子结点，要么它有两个子结点，这样的树就是满二叉树。</p>
+</blockquote>
+<p>——形成满二叉树需要先向左扩展，再向右扩展，左右匹配，所以向左看作1，向右看作0，n+1个叶子结点有2n次扩展，还原为出入栈</p>
+<blockquote>
+<p><strong>买票找零</strong>：有2n个人排成一行进入剧场。入场费5元。其中只有n个人有一张5元钞票，另外n人只有10元钞票，剧院无其它钞票，问有多少种方法使得只要有10元的人买票，售票处就有5元的钞票找零</p>
+</blockquote>
+<p>——拿5元的看作1，10元的看作0</p>
+<p><s>所以要对这类题目有一定敏感性</s></p>
+<h3 id="有关题目练习可以去：">有关题目练习可以去：</h3>
+<p><a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1044">栈</a><br>
+<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1754">球迷购票问题</a><br>
+<a target="_blank" rel="noopener" href="https://www.luogu.com.cn/problem/P1754">鸡蛋饼</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">紫炁</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://skye-rs.github.io/2022/02/15/%E5%85%B3%E4%BA%8E%E5%87%BA%E6%A0%88%E5%BA%8F%E5%88%97%E7%9A%84%E8%A7%A3%E6%B3%95%E6%80%BB%E7%BB%93%E5%8F%8A%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0%E7%9A%84%E5%AD%A6%E4%B9%A0%EF%BC%88C%E8%AF%AD%E8%A8%80%EF%BC%89/">http://skye-rs.github.io/2022/02/15/关于出栈序列的解法总结及卡特兰数的学习（C语言）/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://skye-rs.github.io" target="_blank">Peninsula</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C%E8%AF%AD%E8%A8%80/">C语言</a><a class="post-meta__tags" href="/tags/%E7%AE%97%E6%B3%95/">算法</a><a class="post-meta__tags" href="/tags/%E6%A0%88/">栈</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/cover/cover5.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/wechat.jpg" alt="wechat"/></a><div class="post-qr-code-desc">wechat</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/alipay.jpg" alt="alipay"/></a><div class="post-qr-code-desc">alipay</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/02/15/valine/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/cover1.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Github+Hexo搭建属于自己的免费博客（三）——设置评论系统</div></div></a></div><div class="next-post pull-right"><a href="/2022/02/15/CDN/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/top.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Github+Hexo搭建属于自己的免费博客（四）——CDN加速</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/02/15/%E3%80%90%E7%AE%97%E6%B3%95%E7%AF%87%E3%80%91%E6%8E%92%E5%BA%8F%E2%80%94%E2%80%94%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%EF%BC%88c%E8%AF%AD%E8%A8%80%EF%BC%89/" title="【算法篇】排序——快速排序（c语言）"><img class="cover" src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/cover/cover4.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-15</div><div class="title">【算法篇】排序——快速排序（c语言）</div></div></a></div><div><a href="/2022/02/15/%E5%85%AB%E5%A4%A7%E6%8E%92%E5%BA%8F/" title="【算法篇】排序——八大排序（c语言）"><img class="cover" src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/cover/cover6.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-15</div><div class="title">【算法篇】排序——八大排序（c语言）</div></div></a></div><div><a href="/2022/02/14/%E3%80%90BUAA%2018%E7%BA%A7%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AC%AC%E4%BA%8C%E9%A2%98%E3%80%91%E5%90%8E%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%BD%AC%E4%B8%AD%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F&%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%AE%A1%E7%AE%97/" title="【BUAA 18级数据结构第二题】后缀表达式转中缀表达式&表达式计算"><img class="cover" src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/cover/cover3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-14</div><div class="title">【BUAA 18级数据结构第二题】后缀表达式转中缀表达式&表达式计算</div></div></a></div><div><a href="/2022/02/15/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87%E3%80%91%E9%93%BE%E8%A1%A8%EF%BC%88c%E8%AF%AD%E8%A8%80%EF%BC%89/" title="【数据结构篇】链表"><img class="cover" src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/cover/cover3.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-15</div><div class="title">【数据结构篇】链表</div></div></a></div><div><a href="/2022/02/15/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87%E3%80%91%E6%A0%91%EF%BC%88c%E8%AF%AD%E8%A8%80%EF%BC%89/" title="【数据结构篇】树的遍历"><img class="cover" src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN@1.0/source/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/cover/cover2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-02-15</div><div class="title">【数据结构篇】树的遍历</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">出栈次序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%951%E2%80%94%E2%80%94%E9%80%92%E5%BD%92-%E8%AE%B0%E5%BF%86%E5%8C%96%E6%90%9C%E7%B4%A2"><span class="toc-number">1.1.</span> <span class="toc-text">解法1——递归&#x2F;记忆化搜索</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%952%E2%80%94%E2%80%94%E9%80%92%E6%8E%A8"><span class="toc-number">1.2.</span> <span class="toc-text">解法2——递推</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E6%B3%953%E2%80%94%E2%80%94%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">解法3——卡特兰数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E6%98%AF%E5%88%86%E6%9E%90%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AF%E4%BB%A5%E7%94%A8%E5%8D%A1%E7%89%B9%E5%85%B0"><span class="toc-number">1.3.1.</span> <span class="toc-text">关键是分析为什么可以用卡特兰</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%B1%BB%E4%BC%BC%E9%A2%98%E7%9B%AE%E6%9C%89"><span class="toc-number">1.3.2.</span> <span class="toc-text">类似题目有</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%89%E5%85%B3%E9%A2%98%E7%9B%AE%E7%BB%83%E4%B9%A0%E5%8F%AF%E4%BB%A5%E5%8E%BB%EF%BC%9A"><span class="toc-number">1.3.3.</span> <span class="toc-text">有关题目练习可以去：</span></a></li></ol></li></ol></li></ol></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By 紫炁</div><div class="footer_custom_text">Hi,welcome</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'iDdPtB6hM2S1SW95R8rn5dWT-gzGzoHsz',
+      appKey: 'KcfS7UtpddmJByB2xJ76F6R5',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script src="/js/myjs.js"></script><script defer="defer" id="fluttering_ribbon" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-fluttering-ribbon.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="H,Y,X,S,Z" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script></body></html>
