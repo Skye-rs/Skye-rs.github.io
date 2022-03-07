@@ -28,56 +28,74 @@
       </tags>
   </entry>
   <entry>
-    <title>【Python学习笔记】- 基本数据类型</title>
-    <url>/2022/02/15/python-1/</url>
-    <content><![CDATA[<h2 id="数字类型及操作">数字类型及操作</h2>
-<h3 id="整数">整数</h3>
-<p>==整数无限制==</p>
+    <title>【数据结构篇】树的遍历</title>
+    <url>/2022/02/15/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87%E3%80%91%E6%A0%91%EF%BC%88c%E8%AF%AD%E8%A8%80%EF%BC%89/</url>
+    <content><![CDATA[<h1>树的遍历</h1>
+<h2 id="前序遍历">前序遍历</h2>
 <ul>
 <li>
-<p>进制</p>
+<p>首先访问根节点，然后遍历左子树，最后遍历右子树</p>
+<p><em>递归写法</em></p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">preTravel</span><span class="params">(<span class="keyword">struct</span> TreeNode*root)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(root!=<span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,root-&gt;val);</span><br><span class="line">        travel(root-&gt;left);</span><br><span class="line">        travel(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>迭代写法 (迭代就是把递归过程中调用的栈显式表达出来)</em></p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">preTravel</span><span class="params">(<span class="keyword">struct</span> TreeNode*root)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> *<span class="title">stk</span>[100];</span></span><br><span class="line">    <span class="type">int</span> stk_top = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span> (stk_top &gt; <span class="number">-1</span> || root != <span class="literal">NULL</span>) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (root != <span class="literal">NULL</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,root-&gt;val);</span><br><span class="line">            stk[++stk_top] = root;</span><br><span class="line">            root = root-&gt;left;</span><br><span class="line">        &#125;</span><br><span class="line">        root = stk[stk_top--];</span><br><span class="line">        root = root-&gt;right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="中序遍历">中序遍历</h2>
 <ul>
 <li>
-<p>十进制 1010，99，-217</p>
-</li>
-<li>
-<p>二进制 0b或0B开头</p>
-</li>
-<li>
-<p>八进制 0o或0O</p>
-</li>
-<li>
-<p>十六进制 0x或0X</p>
+<p>先左后根最后右（==二叉搜索树中可以得到递增的有序序列==）</p>
+<p><em>递归写法</em></p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">inorderTravel</span><span class="params">(<span class="keyword">struct</span> TreeNode*root)</span></span><br><span class="line">&#123;</span><br><span class="line">     <span class="keyword">if</span>(root==<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    inorderTravel(root-&gt;left);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,root-&gt;val);</span><br><span class="line">    inorderTravel(root-&gt;right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>迭代写法 (迭代就是把递归过程中调用的栈显式表达出来)</em></p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">inorderTravel</span><span class="params">(<span class="keyword">struct</span> TreeNode*root)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> *<span class="title">stk</span>[100];</span></span><br><span class="line">    <span class="type">int</span> stk_top = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span> (stk_top &gt; <span class="number">-1</span> || root != <span class="literal">NULL</span>) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (root != <span class="literal">NULL</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            stk[++stk_top] = root;</span><br><span class="line">            root = root-&gt;left;</span><br><span class="line">        &#125;</span><br><span class="line">        root = stk[stk_top--];</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,root-&gt;val);</span><br><span class="line">        root = root-&gt;right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-</li>
-</ul>
-<h3 id="浮点数">浮点数</h3>
-<p>==浮点数间运算存在不确定尾数==（用二进制表示有误差）</p>
+<h2 id="后序遍历">后序遍历</h2>
 <ul>
 <li>
-<p>使用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>o</mi><mi>u</mi><mi>n</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">round</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">ro</span><span class="mord mathnormal">u</span><span class="mord mathnormal">n</span><span class="mord mathnormal">d</span></span></span></span> 浮点数间运算比较</p>
+<p>先左后右最后根</p>
+<p><em>递归写法</em></p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"> <span class="type">void</span> <span class="title function_">postTravel</span><span class="params">(<span class="keyword">struct</span> TreeNode*root)</span></span><br><span class="line">&#123;</span><br><span class="line">     <span class="keyword">if</span>(root==<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    postTravel(root-&gt;left,a,returnSize);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,root-&gt;val);</span><br><span class="line">    postTravel(root-&gt;right,a,returnSize);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><em>迭代写法</em></p>
+  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">preTravel</span><span class="params">(<span class="keyword">struct</span> TreeNode*root)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> *<span class="title">stk</span>[100];</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> *<span class="title">prev</span> =</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="type">int</span> stk_top = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span>(root==<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">while</span> (stk_top &gt; <span class="number">-1</span> || root != <span class="literal">NULL</span>) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (root != <span class="literal">NULL</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            stk[++stk_top] = root;</span><br><span class="line">            root = root-&gt;left;</span><br><span class="line">        &#125;</span><br><span class="line">        root=stk[stk_top--];</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;right == <span class="literal">NULL</span> || root-&gt;right == prev) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,root-&gt;val);</span><br><span class="line">            prev = root;</span><br><span class="line">            root = <span class="literal">NULL</span>;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">        &#123;</span><br><span class="line">            stk[top++] = root;</span><br><span class="line">            root = root-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="层序遍历">层序遍历</h2>
 <ul>
-<li>
-<p>不确定尾数一般发生在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>16</mn></mrow></msup></mrow><annotation encoding="application/x-tex">10^{-16}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">16</span></span></span></span></span></span></span></span></span></span></span></span>左右</p>
-</li>
-<li>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>o</mi><mi>u</mi><mi>n</mi><mi>d</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>d</mi><mo stretchy="false">)</mo><mo>:</mo></mrow><annotation encoding="application/x-tex">round(x,d):</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ro</span><span class="mord mathnormal">u</span><span class="mord mathnormal">n</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span></span></span></span>对x进行四舍五入，d是小数截取位数</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">round</span>(<span class="number">0.1</span>+<span class="number">0.2</span>,<span class="number">1</span>) == <span class="number">0.3</span></span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
-</li>
+<li>用队列实现广度优先搜索，逐层遍历</li>
 </ul>
-</li>
-<li>
-<p>采用科学计数法表示浮点数</p>
-</li>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MAX 2000</span></span><br><span class="line"><span class="type">int</span> **<span class="title function_">levelOrder</span><span class="params">(<span class="keyword">struct</span> TreeNode*root,<span class="type">int</span> *returnSize,<span class="type">int</span> **returnColumnSize)</span></span><br><span class="line">&#123;<span class="comment">//返回逐层遍历的二维数组，returnColumnSize记录每一层的大小</span></span><br><span class="line">    *returnSize=<span class="number">0</span>;<span class="comment">//层数</span></span><br><span class="line">    <span class="keyword">if</span>(root==<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="type">int</span>**res=(<span class="type">int</span>**)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>*)*MAX);<span class="comment">//申请一个二维数组空间</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span>*<span class="title">Q</span>[<span class="title">MAX</span>];</span><span class="comment">//队，存放所有结点</span></span><br><span class="line">    *returnColumnSize=(<span class="type">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>)*MAX);</span><br><span class="line">    <span class="type">int</span> flag,size,front=<span class="number">0</span>,rear=<span class="number">0</span>;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span>*<span class="title">tmp</span>=</span><span class="literal">NULL</span>;</span><br><span class="line">    Q[rear++]=root;</span><br><span class="line">    <span class="keyword">while</span>(front!=rear)</span><br><span class="line">    &#123;<span class="comment">//队列不空时</span></span><br><span class="line">        flag=rear;<span class="comment">//当前层尾指针</span></span><br><span class="line">        size=<span class="number">0</span>;<span class="comment">//当前层数组大小</span></span><br><span class="line">        res[*returnSize]=(<span class="type">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>*)*(flag-front));</span><br><span class="line">        <span class="keyword">while</span>(front&lt;flag)</span><br><span class="line">        &#123;<span class="comment">//处理当前层</span></span><br><span class="line">            tmp=Q[front++];</span><br><span class="line">            res[*returnSize][size++]=tmp-&gt;val;</span><br><span class="line">            <span class="comment">//每个结点的左右孩子入队</span></span><br><span class="line">            <span class="keyword">if</span>(p-&gt;left)</span><br><span class="line">                Q[rear++]=p-&gt;left;</span><br><span class="line">            <span class="keyword">if</span>(p-&gt;right)</span><br><span class="line">                Q[rear++]=p-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">        (*returnColumnSize)[*returnSize]=size;</span><br><span class="line">        returnSize++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="递归解决问题">递归解决问题</h2>
+<ul>
+<li>最大深度</li>
 </ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">maxDepth</span><span class="params">(<span class="keyword">struct</span> TreeNode* root)</span>&#123;</span><br><span class="line">     <span class="keyword">return</span> root == <span class="literal">NULL</span> ? <span class="number">0</span> :fmax(maxDepth(root-&gt;left), maxDepth(root-&gt;right))+ <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对称二叉树</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">bool</span> <span class="title function_">isMirror</span><span class="params">(<span class="keyword">struct</span> TreeNode*p,<span class="keyword">struct</span> TreeNode*q)</span></span><br><span class="line">&#123;<span class="comment">//递归思想：如果对称，那每个树的右子树镜像对称另一个树的左子树</span></span><br><span class="line">    <span class="keyword">if</span>(!p&amp;&amp;!q)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span>(!p||!q)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> (p-&gt;val==q-&gt;val)&amp;&amp;(isMirror(p-&gt;left,q-&gt;right))&amp;&amp;(isMirror(p-&gt;right,q-&gt;left));</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">bool</span> <span class="title function_">isSymmetric</span><span class="params">(<span class="keyword">struct</span> TreeNode* root)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> isMirror(root,root);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>路径总和</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//判断二叉树中是否有一条路径节点之和等于目标值</span></span><br><span class="line"><span class="type">bool</span> <span class="title function_">hasPathSum</span><span class="params">(<span class="keyword">struct</span> TreeNode* root, <span class="type">int</span> targetSum)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!root)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(!root-&gt;left&amp;&amp;!root-&gt;right)</span><br><span class="line">        <span class="keyword">return</span> root-&gt;val==targetSum;</span><br><span class="line">    <span class="keyword">return</span> hasPathSum(root-&gt;left,targetSum-root-&gt;val)||hasPathSum(root-&gt;right,targetSum-root-&gt;val);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最近公共祖先</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> TreeNode* <span class="title function_">lowestCommonAncestor</span><span class="params">(<span class="keyword">struct</span> TreeNode* root, <span class="keyword">struct</span> TreeNode* p, <span class="keyword">struct</span> TreeNode* q)</span> &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span>* <span class="title">ancestor</span>=</span>root;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(p-&gt;val&lt;ancestor-&gt;val&amp;&amp;q-&gt;val&lt;ancestor-&gt;val)</span><br><span class="line">            ancestor=ancestor-&gt;left;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(p-&gt;val&gt;ancestor-&gt;val&amp;&amp;q-&gt;val&gt;ancestor-&gt;val)</span><br><span class="line">            ancestor=ancestor-&gt;right;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ancestor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最长路径</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">using namespace <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">100010</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> e[N] , ne[N] , h[N] , idx;</span><br><span class="line"><span class="type">int</span> f[N];<span class="comment">//f[u]表示u到最远叶节点的距离。显然如果u是节点，则f[u]=0。</span></span><br><span class="line"><span class="type">int</span> n , m , ans;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> a , <span class="type">int</span> b)</span></span><br><span class="line">&#123;</span><br><span class="line">    e[idx] = b , ne[idx] = h[a] , h[a] = idx++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> u)</span><span class="comment">//求以u为根节点到叶节点的最大距离</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a = <span class="number">0</span> , b = <span class="number">0</span>;<span class="comment">//a记录u到最远叶节点的距离，b记录u到次远叶节点的距离</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = h[u] ; ~i ; i = ne[i])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j = e[i];</span><br><span class="line">        <span class="comment">//求子节点j到最远叶节点的距离</span></span><br><span class="line">        dfs(j);</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> t = f[j] + <span class="number">1</span>;<span class="comment">//u通过j能到的最远叶节点的距离</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//更新a、b</span></span><br><span class="line">        <span class="keyword">if</span>(t &gt;= a)</span><br><span class="line">            b = a , a = t;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(t &gt; b)</span><br><span class="line">            b = t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    f[u] = a;</span><br><span class="line">    <span class="comment">//最后的答案就是u所能到的最远叶节点距离和次远叶节点距离之和</span></span><br><span class="line">    ans = max(ans , a + b);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; n &gt;&gt; m;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">memset</span>(h , <span class="number">-1</span> , <span class="keyword">sizeof</span> h);</span><br><span class="line">    <span class="comment">//电脑其实和交换机等价，所以电脑的标号从n继续往后标记即可</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span> ; i &lt;= n + m ; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; j;</span><br><span class="line">        add(j , i);<span class="comment">//因为是自根向下DP，所以建一条边即可。</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dfs(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; ans &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>Python学习笔记</category>
+        <category>数据结构</category>
+        <category>树</category>
       </categories>
       <tags>
-        <tag>python</tag>
-        <tag>数据类型</tag>
+        <tag>数据结构</tag>
+        <tag>树</tag>
+        <tag>C语言</tag>
       </tags>
   </entry>
   <entry>
@@ -148,8 +166,61 @@
         <category>程序设计</category>
       </categories>
       <tags>
-        <tag>表达式</tag>
         <tag>C语言</tag>
+        <tag>表达式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【Python学习笔记】- 基本数据类型</title>
+    <url>/2022/02/15/python-1/</url>
+    <content><![CDATA[<h2 id="数字类型及操作">数字类型及操作</h2>
+<h3 id="整数">整数</h3>
+<p>==整数无限制==</p>
+<ul>
+<li>
+<p>进制</p>
+<ul>
+<li>
+<p>十进制 1010，99，-217</p>
+</li>
+<li>
+<p>二进制 0b或0B开头</p>
+</li>
+<li>
+<p>八进制 0o或0O</p>
+</li>
+<li>
+<p>十六进制 0x或0X</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="浮点数">浮点数</h3>
+<p>==浮点数间运算存在不确定尾数==（用二进制表示有误差）</p>
+<ul>
+<li>
+<p>使用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>o</mi><mi>u</mi><mi>n</mi><mi>d</mi></mrow><annotation encoding="application/x-tex">round</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">ro</span><span class="mord mathnormal">u</span><span class="mord mathnormal">n</span><span class="mord mathnormal">d</span></span></span></span> 浮点数间运算比较</p>
+<ul>
+<li>
+<p>不确定尾数一般发生在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>16</mn></mrow></msup></mrow><annotation encoding="application/x-tex">10^{-16}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">16</span></span></span></span></span></span></span></span></span></span></span></span>左右</p>
+</li>
+<li>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>r</mi><mi>o</mi><mi>u</mi><mi>n</mi><mi>d</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>d</mi><mo stretchy="false">)</mo><mo>:</mo></mrow><annotation encoding="application/x-tex">round(x,d):</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">ro</span><span class="mord mathnormal">u</span><span class="mord mathnormal">n</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span></span></span></span>对x进行四舍五入，d是小数截取位数</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">round</span>(<span class="number">0.1</span>+<span class="number">0.2</span>,<span class="number">1</span>) == <span class="number">0.3</span></span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li>
+<p>采用科学计数法表示浮点数</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Python学习笔记</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>数据类型</tag>
       </tags>
   </entry>
   <entry>
@@ -195,80 +266,9 @@
         <category>链表</category>
       </categories>
       <tags>
-        <tag>C语言</tag>
         <tag>数据结构</tag>
+        <tag>C语言</tag>
         <tag>链表</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>【数据结构篇】树的遍历</title>
-    <url>/2022/02/15/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87%E3%80%91%E6%A0%91%EF%BC%88c%E8%AF%AD%E8%A8%80%EF%BC%89/</url>
-    <content><![CDATA[<h1>树的遍历</h1>
-<h2 id="前序遍历">前序遍历</h2>
-<ul>
-<li>
-<p>首先访问根节点，然后遍历左子树，最后遍历右子树</p>
-<p><em>递归写法</em></p>
-  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">preTravel</span><span class="params">(<span class="keyword">struct</span> TreeNode*root)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(root!=<span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,root-&gt;val);</span><br><span class="line">        travel(root-&gt;left);</span><br><span class="line">        travel(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><em>迭代写法 (迭代就是把递归过程中调用的栈显式表达出来)</em></p>
-  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">preTravel</span><span class="params">(<span class="keyword">struct</span> TreeNode*root)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> *<span class="title">stk</span>[100];</span></span><br><span class="line">    <span class="type">int</span> stk_top = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span> (stk_top &gt; <span class="number">-1</span> || root != <span class="literal">NULL</span>) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (root != <span class="literal">NULL</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,root-&gt;val);</span><br><span class="line">            stk[++stk_top] = root;</span><br><span class="line">            root = root-&gt;left;</span><br><span class="line">        &#125;</span><br><span class="line">        root = stk[stk_top--];</span><br><span class="line">        root = root-&gt;right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="中序遍历">中序遍历</h2>
-<ul>
-<li>
-<p>先左后根最后右（==二叉搜索树中可以得到递增的有序序列==）</p>
-<p><em>递归写法</em></p>
-  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">inorderTravel</span><span class="params">(<span class="keyword">struct</span> TreeNode*root)</span></span><br><span class="line">&#123;</span><br><span class="line">     <span class="keyword">if</span>(root==<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    inorderTravel(root-&gt;left);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,root-&gt;val);</span><br><span class="line">    inorderTravel(root-&gt;right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><em>迭代写法 (迭代就是把递归过程中调用的栈显式表达出来)</em></p>
-  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">inorderTravel</span><span class="params">(<span class="keyword">struct</span> TreeNode*root)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> *<span class="title">stk</span>[100];</span></span><br><span class="line">    <span class="type">int</span> stk_top = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">while</span> (stk_top &gt; <span class="number">-1</span> || root != <span class="literal">NULL</span>) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (root != <span class="literal">NULL</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            stk[++stk_top] = root;</span><br><span class="line">            root = root-&gt;left;</span><br><span class="line">        &#125;</span><br><span class="line">        root = stk[stk_top--];</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,root-&gt;val);</span><br><span class="line">        root = root-&gt;right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="后序遍历">后序遍历</h2>
-<ul>
-<li>
-<p>先左后右最后根</p>
-<p><em>递归写法</em></p>
-  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"> <span class="type">void</span> <span class="title function_">postTravel</span><span class="params">(<span class="keyword">struct</span> TreeNode*root)</span></span><br><span class="line">&#123;</span><br><span class="line">     <span class="keyword">if</span>(root==<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    postTravel(root-&gt;left,a,returnSize);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,root-&gt;val);</span><br><span class="line">    postTravel(root-&gt;right,a,returnSize);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><em>迭代写法</em></p>
-  <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">preTravel</span><span class="params">(<span class="keyword">struct</span> TreeNode*root)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> *<span class="title">stk</span>[100];</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span> *<span class="title">prev</span> =</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="type">int</span> stk_top = <span class="number">-1</span>;</span><br><span class="line">    <span class="keyword">if</span>(root==<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">while</span> (stk_top &gt; <span class="number">-1</span> || root != <span class="literal">NULL</span>) </span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (root != <span class="literal">NULL</span>) </span><br><span class="line">        &#123;</span><br><span class="line">            stk[++stk_top] = root;</span><br><span class="line">            root = root-&gt;left;</span><br><span class="line">        &#125;</span><br><span class="line">        root=stk[stk_top--];</span><br><span class="line">        <span class="keyword">if</span> (root-&gt;right == <span class="literal">NULL</span> || root-&gt;right == prev) &#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,root-&gt;val);</span><br><span class="line">            prev = root;</span><br><span class="line">            root = <span class="literal">NULL</span>;</span><br><span class="line">        &#125; </span><br><span class="line">        <span class="keyword">else</span> </span><br><span class="line">        &#123;</span><br><span class="line">            stk[top++] = root;</span><br><span class="line">            root = root-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="层序遍历">层序遍历</h2>
-<ul>
-<li>用队列实现广度优先搜索，逐层遍历</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> MAX 2000</span></span><br><span class="line"><span class="type">int</span> **<span class="title function_">levelOrder</span><span class="params">(<span class="keyword">struct</span> TreeNode*root,<span class="type">int</span> *returnSize,<span class="type">int</span> **returnColumnSize)</span></span><br><span class="line">&#123;<span class="comment">//返回逐层遍历的二维数组，returnColumnSize记录每一层的大小</span></span><br><span class="line">    *returnSize=<span class="number">0</span>;<span class="comment">//层数</span></span><br><span class="line">    <span class="keyword">if</span>(root==<span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    <span class="type">int</span>**res=(<span class="type">int</span>**)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>*)*MAX);<span class="comment">//申请一个二维数组空间</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span>*<span class="title">Q</span>[<span class="title">MAX</span>];</span><span class="comment">//队，存放所有结点</span></span><br><span class="line">    *returnColumnSize=(<span class="type">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>)*MAX);</span><br><span class="line">    <span class="type">int</span> flag,size,front=<span class="number">0</span>,rear=<span class="number">0</span>;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span>*<span class="title">tmp</span>=</span><span class="literal">NULL</span>;</span><br><span class="line">    Q[rear++]=root;</span><br><span class="line">    <span class="keyword">while</span>(front!=rear)</span><br><span class="line">    &#123;<span class="comment">//队列不空时</span></span><br><span class="line">        flag=rear;<span class="comment">//当前层尾指针</span></span><br><span class="line">        size=<span class="number">0</span>;<span class="comment">//当前层数组大小</span></span><br><span class="line">        res[*returnSize]=(<span class="type">int</span>*)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="type">int</span>*)*(flag-front));</span><br><span class="line">        <span class="keyword">while</span>(front&lt;flag)</span><br><span class="line">        &#123;<span class="comment">//处理当前层</span></span><br><span class="line">            tmp=Q[front++];</span><br><span class="line">            res[*returnSize][size++]=tmp-&gt;val;</span><br><span class="line">            <span class="comment">//每个结点的左右孩子入队</span></span><br><span class="line">            <span class="keyword">if</span>(p-&gt;left)</span><br><span class="line">                Q[rear++]=p-&gt;left;</span><br><span class="line">            <span class="keyword">if</span>(p-&gt;right)</span><br><span class="line">                Q[rear++]=p-&gt;right;</span><br><span class="line">        &#125;</span><br><span class="line">        (*returnColumnSize)[*returnSize]=size;</span><br><span class="line">        returnSize++;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="递归解决问题">递归解决问题</h2>
-<ul>
-<li>最大深度</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">maxDepth</span><span class="params">(<span class="keyword">struct</span> TreeNode* root)</span>&#123;</span><br><span class="line">     <span class="keyword">return</span> root == <span class="literal">NULL</span> ? <span class="number">0</span> :fmax(maxDepth(root-&gt;left), maxDepth(root-&gt;right))+ <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>对称二叉树</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">bool</span> <span class="title function_">isMirror</span><span class="params">(<span class="keyword">struct</span> TreeNode*p,<span class="keyword">struct</span> TreeNode*q)</span></span><br><span class="line">&#123;<span class="comment">//递归思想：如果对称，那每个树的右子树镜像对称另一个树的左子树</span></span><br><span class="line">    <span class="keyword">if</span>(!p&amp;&amp;!q)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span>(!p||!q)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">return</span> (p-&gt;val==q-&gt;val)&amp;&amp;(isMirror(p-&gt;left,q-&gt;right))&amp;&amp;(isMirror(p-&gt;right,q-&gt;left));</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">bool</span> <span class="title function_">isSymmetric</span><span class="params">(<span class="keyword">struct</span> TreeNode* root)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> isMirror(root,root);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>路径总和</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">//判断二叉树中是否有一条路径节点之和等于目标值</span></span><br><span class="line"><span class="type">bool</span> <span class="title function_">hasPathSum</span><span class="params">(<span class="keyword">struct</span> TreeNode* root, <span class="type">int</span> targetSum)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!root)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">if</span>(!root-&gt;left&amp;&amp;!root-&gt;right)</span><br><span class="line">        <span class="keyword">return</span> root-&gt;val==targetSum;</span><br><span class="line">    <span class="keyword">return</span> hasPathSum(root-&gt;left,targetSum-root-&gt;val)||hasPathSum(root-&gt;right,targetSum-root-&gt;val);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>最近公共祖先</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> TreeNode* <span class="title function_">lowestCommonAncestor</span><span class="params">(<span class="keyword">struct</span> TreeNode* root, <span class="keyword">struct</span> TreeNode* p, <span class="keyword">struct</span> TreeNode* q)</span> &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">TreeNode</span>* <span class="title">ancestor</span>=</span>root;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(p-&gt;val&lt;ancestor-&gt;val&amp;&amp;q-&gt;val&lt;ancestor-&gt;val)</span><br><span class="line">            ancestor=ancestor-&gt;left;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(p-&gt;val&gt;ancestor-&gt;val&amp;&amp;q-&gt;val&gt;ancestor-&gt;val)</span><br><span class="line">            ancestor=ancestor-&gt;right;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ancestor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>最长路径</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">using namespace <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N = <span class="number">100010</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> e[N] , ne[N] , h[N] , idx;</span><br><span class="line"><span class="type">int</span> f[N];<span class="comment">//f[u]表示u到最远叶节点的距离。显然如果u是节点，则f[u]=0。</span></span><br><span class="line"><span class="type">int</span> n , m , ans;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">add</span><span class="params">(<span class="type">int</span> a , <span class="type">int</span> b)</span></span><br><span class="line">&#123;</span><br><span class="line">    e[idx] = b , ne[idx] = h[a] , h[a] = idx++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">dfs</span><span class="params">(<span class="type">int</span> u)</span><span class="comment">//求以u为根节点到叶节点的最大距离</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> a = <span class="number">0</span> , b = <span class="number">0</span>;<span class="comment">//a记录u到最远叶节点的距离，b记录u到次远叶节点的距离</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = h[u] ; ~i ; i = ne[i])</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j = e[i];</span><br><span class="line">        <span class="comment">//求子节点j到最远叶节点的距离</span></span><br><span class="line">        dfs(j);</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> t = f[j] + <span class="number">1</span>;<span class="comment">//u通过j能到的最远叶节点的距离</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//更新a、b</span></span><br><span class="line">        <span class="keyword">if</span>(t &gt;= a)</span><br><span class="line">            b = a , a = t;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(t &gt; b)</span><br><span class="line">            b = t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    f[u] = a;</span><br><span class="line">    <span class="comment">//最后的答案就是u所能到的最远叶节点距离和次远叶节点距离之和</span></span><br><span class="line">    ans = max(ans , a + b);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">cin</span> &gt;&gt; n &gt;&gt; m;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">memset</span>(h , <span class="number">-1</span> , <span class="keyword">sizeof</span> h);</span><br><span class="line">    <span class="comment">//电脑其实和交换机等价，所以电脑的标号从n继续往后标记即可</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">2</span> ; i &lt;= n + m ; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> j;</span><br><span class="line">        <span class="built_in">cin</span> &gt;&gt; j;</span><br><span class="line">        add(j , i);<span class="comment">//因为是自根向下DP，所以建一条边即可。</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    dfs(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; ans &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>数据结构</category>
-        <category>树</category>
-      </categories>
-      <tags>
-        <tag>C语言</tag>
-        <tag>数据结构</tag>
-        <tag>树</tag>
       </tags>
   </entry>
   <entry>
