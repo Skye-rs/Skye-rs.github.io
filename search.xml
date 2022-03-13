@@ -90,51 +90,38 @@
       </tags>
   </entry>
   <entry>
-    <title>【数据结构篇】链表</title>
-    <url>/2022/02/15/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87%E3%80%91%E9%93%BE%E8%A1%A8%EF%BC%88c%E8%AF%AD%E8%A8%80%EF%BC%89/</url>
-    <content><![CDATA[<h1>【数据结构篇】链表</h1>
-<h2 id="设计链表">设计链表</h2>
+    <title>PHP基础学习笔记</title>
+    <url>/2022/03/07/CTF/PHP%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<ul>
+<li>
+<p>$_SERVER[“PHP_SELF”]是一种超全局变量，返回当前执行脚本的文件名。</p>
 <ul>
-<li>在链表类中实现这些功能：</li>
+<li>
+<p>“test_form.php” 的页面中有如下表单：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&lt;form method=<span class="string">&quot;post&quot;</span> action=<span class="string">&quot;&lt;?php echo <span class="subst">$_SERVER</span>[&quot;</span>PHP_SELF<span class="string">&quot;];?&gt;&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+<p>用户输入<code>http://www.example.com/test_form.php</code>转化为：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&lt;form method=<span class="string">&quot;post&quot;</span> action=<span class="string">&quot;test_form.php&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
+<p><code>http://www.example.com/test_form.php/**%22%3E%3C**script **%3**Ealer('hacked')**%3C**/script **%3E**</code>则转为：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&lt;form method=<span class="string">&quot;post&quot;</span> action=<span class="string">&quot;test_form.php&quot;</span>/&gt;&lt;script&gt;<span class="title function_ invoke__">alert</span>(<span class="string">&#x27;hacked&#x27;</span>)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>执行javascript代码。</p>
+</li>
 </ul>
-<blockquote>
-<p>·get(index)：获取链表中第 index 个节点的值。如果索引无效，则返回-1。<br>
-·addAtHead(val)：在链表的第一个元素之前添加一个值为 val 的节点。插入后，新节点将成为链表的第一个节点。<br>
-·addAtTail(val)：将值为 val 的节点追加到链表的最后一个元素。<br>
-·addAtIndex(index,val)：在链表中的第 index 个节点之前添加值为 val  的节点。如果 index 等于链表的长度，则该节点将附加到链表的末尾。如果 index 大于链表长度，则不会插入节点。如果index小于0，则在头部插入节点。<br>
-·deleteAtIndex(index)：如果索引 index 有效，则删除链表中的第 index 个节点。</p>
-</blockquote>
-<ul>
-<li><em>代码示例如下</em></li>
+</li>
+<li>
+<p>htmlspecialchars()把特殊字符转换为HTML实体，&lt; 和 &gt; 之类的 HTML 字符会被替换为 &amp;lt; 和 &amp;gt; 。这样可防止攻击者通过在表单中注入 HTML 或 JavaScript 代码（跨站点脚本攻击）对代码进行利用。<br>
+<s>如何攻击该方式？</s></p>
+</li>
+<li>
+<p>检查函数</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 定义变量并设置为空值</span></span><br><span class="line"><span class="variable">$name</span> = <span class="variable">$email</span> = <span class="variable">$gender</span> = <span class="variable">$comment</span> = <span class="variable">$website</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_METHOD&quot;</span>] == <span class="string">&quot;POST&quot;</span>) &#123;</span><br><span class="line"><span class="variable">$name</span> = <span class="title function_ invoke__">test_input</span>(<span class="variable">$_POST</span>[<span class="string">&quot;name&quot;</span>]);</span><br><span class="line"><span class="variable">$email</span> = <span class="title function_ invoke__">test_input</span>(<span class="variable">$_POST</span>[<span class="string">&quot;email&quot;</span>]);</span><br><span class="line"><span class="variable">$website</span> = <span class="title function_ invoke__">test_input</span>(<span class="variable">$_POST</span>[<span class="string">&quot;website&quot;</span>]);</span><br><span class="line"><span class="variable">$comment</span> = <span class="title function_ invoke__">test_input</span>(<span class="variable">$_POST</span>[<span class="string">&quot;comment&quot;</span>]);</span><br><span class="line"><span class="variable">$gender</span> = <span class="title function_ invoke__">test_input</span>(<span class="variable">$_POST</span>[<span class="string">&quot;gender&quot;</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test_input</span>(<span class="params"><span class="variable">$data</span></span>) </span>&#123;</span><br><span class="line"><span class="variable">$data</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$data</span>);</span><br><span class="line"><span class="variable">$data</span> = <span class="title function_ invoke__">stripslashes</span>(<span class="variable">$data</span>);</span><br><span class="line"><span class="variable">$data</span> = <span class="title function_ invoke__">htmlspecialchars</span>(<span class="variable">$data</span>);</span><br><span class="line"><span class="keyword">return</span> <span class="variable">$data</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">MyLinkedList_t</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">int</span> val;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">MyLinkedList_t</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; MyLinkedList;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Initialize your data structure here. */</span></span><br><span class="line"></span><br><span class="line">MyLinkedList *<span class="title function_">myLinkedListCreate</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	MyLinkedList *obj = (MyLinkedList *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(MyLinkedList));</span><br><span class="line">	obj-&gt;val = <span class="number">0</span>;</span><br><span class="line">	obj-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">myLinkedListGet</span><span class="params">(MyLinkedList *obj, <span class="type">int</span> index)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (index &lt; <span class="number">0</span> || obj-&gt;next == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> now = <span class="number">0</span>;</span><br><span class="line">	MyLinkedList *listNow = obj-&gt;next;</span><br><span class="line">	<span class="keyword">while</span> (now &lt; index)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (listNow == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		listNow = listNow-&gt;next;</span><br><span class="line">		now++;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (listNow != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> listNow-&gt;val;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">myLinkedListAddAtHead</span><span class="params">(MyLinkedList *obj, <span class="type">int</span> val)</span></span><br><span class="line">&#123;</span><br><span class="line">	MyLinkedList *Node = (MyLinkedList *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(MyLinkedList));</span><br><span class="line">	Node-&gt;val = val;</span><br><span class="line">	Node-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (obj-&gt;next == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		obj-&gt;next = Node;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		Node-&gt;next = obj-&gt;next;</span><br><span class="line">		obj-&gt;next = Node;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Append a node of value val to the last element of the linked list. */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">myLinkedListAddAtTail</span><span class="params">(MyLinkedList *obj, <span class="type">int</span> val)</span></span><br><span class="line">&#123;</span><br><span class="line">	MyLinkedList *Node = (MyLinkedList *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(MyLinkedList));</span><br><span class="line">	Node-&gt;val = val;</span><br><span class="line">	Node-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">	MyLinkedList *nowList = obj;</span><br><span class="line">	<span class="keyword">while</span> (nowList-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		nowList = nowList-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	nowList-&gt;next = Node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">myLinkedListAddAtIndex</span><span class="params">(MyLinkedList *obj, <span class="type">int</span> index, <span class="type">int</span> val)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (index &lt;= <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		myLinkedListAddAtHead(obj, val);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> now = <span class="number">0</span>;</span><br><span class="line">	MyLinkedList *nowList = obj-&gt;next;</span><br><span class="line">	<span class="keyword">while</span> (nowList-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (now == index - <span class="number">1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		nowList = nowList-&gt;next;</span><br><span class="line">		now++;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (index - <span class="number">1</span> != now)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	MyLinkedList *Node = (MyLinkedList *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(MyLinkedList));</span><br><span class="line">	Node-&gt;val = val;</span><br><span class="line">	Node-&gt;next = nowList-&gt;next;</span><br><span class="line">	nowList-&gt;next = Node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Delete the index-th node in the linked list, if the index is valid. */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">myLinkedListDeleteAtIndex</span><span class="params">(MyLinkedList *obj, <span class="type">int</span> index)</span></span><br><span class="line">&#123;</span><br><span class="line">	MyLinkedList *r;</span><br><span class="line">	<span class="keyword">if</span> (index &lt; <span class="number">0</span> || obj-&gt;next == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (index == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		r = obj-&gt;next;</span><br><span class="line">		obj-&gt;next = obj-&gt;next-&gt;next;</span><br><span class="line">		<span class="built_in">free</span>(r);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	MyLinkedList *nowList = obj-&gt;next;</span><br><span class="line">	<span class="type">int</span> now = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (nowList-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (now == index - <span class="number">1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		nowList = nowList-&gt;next;</span><br><span class="line">		now++;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (now == index - <span class="number">1</span> &amp;&amp; nowList-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		r = nowList-&gt;next;</span><br><span class="line">		nowList-&gt;next = nowList-&gt;next-&gt;next;</span><br><span class="line">		<span class="built_in">free</span>(r);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">myNodeFree</span><span class="params">(MyLinkedList *Node)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (Node-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">&#123;</span><br><span class="line">    myNodeFree(Node-&gt;next);</span><br><span class="line">    Node-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">free</span>(Node);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">myLinkedListFree</span><span class="params">(MyLinkedList *obj)</span></span><br><span class="line">&#123;<span class="comment">//从最后一个结点向前逐渐释放，这里用递归实现</span></span><br><span class="line">    myNodeFree(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="环形链表">环形链表</h2>
-<ul>
-<li>可以用<strong>快慢指针</strong>判断是否有环（有环返回真，无环返回假）</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">      <span class="type">int</span> val;</span><br><span class="line">      <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> *<span class="title">next</span>;</span></span><br><span class="line">  &#125;ListNode;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="title function_">hasCycle</span><span class="params">(<span class="keyword">struct</span> ListNode *head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(head==<span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        ListNode *f=head;</span><br><span class="line">        ListNode *s=head;</span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(f-&gt;next==<span class="literal">NULL</span>||f-&gt;next-&gt;next==<span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            f=f-&gt;next-&gt;next;<span class="comment">//f为走两步的快指针</span></span><br><span class="line">            s=s-&gt;next;<span class="comment">//s为走一步的慢指针</span></span><br><span class="line">        &#125;<span class="keyword">while</span>(f!=s);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;<span class="comment">//如果有环一定能相遇</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>如果要返回==入环的第一个结点==呢？</em></li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/20210613191744346.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NreWVfcg==,size_16,color_FFFFFF,t_70#pic_center" alt="示例"><br>
-可以这样分析：<br>
-1 慢指针走过的路程为a(头结点到环入口的距离)+b(慢指针在环内的距离)<br>
-2 快指针走过的路程为a+b+c(相遇点到换入口的距离)+b<br>
-3 因为快指针速度是慢指针的两倍，所以可以导出a=c<br>
-4 所以只要再安排一个位于头结点的指针和慢指针同时出发，它们的相遇位置即为环入口</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> ListNode *<span class="title function_">detectCycle</span><span class="params">(<span class="keyword">struct</span> ListNode *head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(head==<span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> *<span class="title">f</span>=</span>head;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> *<span class="title">s</span>=</span>head;</span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(f-&gt;next==<span class="literal">NULL</span>||f-&gt;next-&gt;next==<span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            f=f-&gt;next-&gt;next;<span class="comment">//f为走两步的快指针</span></span><br><span class="line">            s=s-&gt;next;<span class="comment">//s为走一步的慢指针</span></span><br><span class="line">        &#125;<span class="keyword">while</span>(f!=s);</span><br><span class="line">       <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>*<span class="title">p</span>=</span>head;</span><br><span class="line">       <span class="keyword">while</span>(p!=s)</span><br><span class="line">       &#123;</span><br><span class="line">           p=p-&gt;next;</span><br><span class="line">           s=s-&gt;next;</span><br><span class="line">       &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="回文链表">回文链表</h2>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> ListNode* <span class="title function_">reverseList</span><span class="params">(<span class="keyword">struct</span> ListNode* head)</span> &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">prev</span> =</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">curr</span> =</span> head;</span><br><span class="line">    <span class="keyword">while</span> (curr != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">nextTemp</span> =</span> curr-&gt;next;</span><br><span class="line">        curr-&gt;next = prev;</span><br><span class="line">        prev = curr;</span><br><span class="line">        curr = nextTemp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> prev;</span><br><span class="line">&#125;<span class="comment">//反转链表</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> ListNode* <span class="title function_">endOfFirstHalf</span><span class="params">(<span class="keyword">struct</span> ListNode* head)</span> &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">fast</span> =</span> head;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">slow</span> =</span> head;</span><br><span class="line">    <span class="keyword">while</span> (fast-&gt;next != <span class="literal">NULL</span> &amp;&amp; fast-&gt;next-&gt;next != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        fast = fast-&gt;next-&gt;next;</span><br><span class="line">        slow = slow-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> slow;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="title function_">isPalindrome</span><span class="params">(<span class="keyword">struct</span> ListNode* head)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到前半部分链表的尾节点并反转后半部分链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">firstHalfEnd</span> =</span> endOfFirstHalf(head);</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">secondHalfStart</span> =</span> reverseList(firstHalfEnd-&gt;next);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断是否回文</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">p1</span> =</span> head;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">p2</span> =</span> secondHalfStart;</span><br><span class="line">    <span class="type">bool</span> result = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">while</span> (result &amp;&amp; p2 != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (p1-&gt;val != p2-&gt;val) &#123;</span><br><span class="line">            result = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        p1 = p1-&gt;next;</span><br><span class="line">        p2 = p2-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 还原链表并返回结果</span></span><br><span class="line">    firstHalfEnd-&gt;next = reverseList(secondHalfStart);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><s>持续更新中</s></p>
 ]]></content>
       <categories>
-        <category>数据结构</category>
-        <category>链表</category>
+        <category>PHP学习笔记</category>
       </categories>
       <tags>
-        <tag>C语言</tag>
-        <tag>数据结构</tag>
-        <tag>链表</tag>
+        <tag>PHP</tag>
       </tags>
   </entry>
   <entry>
@@ -209,41 +196,6 @@
       </tags>
   </entry>
   <entry>
-    <title>PHP基础学习笔记</title>
-    <url>/2022/03/07/CTF/PHP%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<ul>
-<li>
-<p>$_SERVER[“PHP_SELF”]是一种超全局变量，返回当前执行脚本的文件名。</p>
-<ul>
-<li>
-<p>“test_form.php” 的页面中有如下表单：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&lt;form method=<span class="string">&quot;post&quot;</span> action=<span class="string">&quot;&lt;?php echo <span class="subst">$_SERVER</span>[&quot;</span>PHP_SELF<span class="string">&quot;];?&gt;&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
-<p>用户输入<code>http://www.example.com/test_form.php</code>转化为：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&lt;form method=<span class="string">&quot;post&quot;</span> action=<span class="string">&quot;test_form.php&quot;</span>&gt;</span><br></pre></td></tr></table></figure>
-<p><code>http://www.example.com/test_form.php/**%22%3E%3C**script **%3**Ealer('hacked')**%3C**/script **%3E**</code>则转为：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&lt;form method=<span class="string">&quot;post&quot;</span> action=<span class="string">&quot;test_form.php&quot;</span>/&gt;&lt;script&gt;<span class="title function_ invoke__">alert</span>(<span class="string">&#x27;hacked&#x27;</span>)&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>执行javascript代码。</p>
-</li>
-</ul>
-</li>
-<li>
-<p>htmlspecialchars()把特殊字符转换为HTML实体，&lt; 和 &gt; 之类的 HTML 字符会被替换为 &amp;lt; 和 &amp;gt; 。这样可防止攻击者通过在表单中注入 HTML 或 JavaScript 代码（跨站点脚本攻击）对代码进行利用。<br>
-<s>如何攻击该方式？</s></p>
-</li>
-<li>
-<p>检查函数</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 定义变量并设置为空值</span></span><br><span class="line"><span class="variable">$name</span> = <span class="variable">$email</span> = <span class="variable">$gender</span> = <span class="variable">$comment</span> = <span class="variable">$website</span> = <span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&quot;REQUEST_METHOD&quot;</span>] == <span class="string">&quot;POST&quot;</span>) &#123;</span><br><span class="line"><span class="variable">$name</span> = <span class="title function_ invoke__">test_input</span>(<span class="variable">$_POST</span>[<span class="string">&quot;name&quot;</span>]);</span><br><span class="line"><span class="variable">$email</span> = <span class="title function_ invoke__">test_input</span>(<span class="variable">$_POST</span>[<span class="string">&quot;email&quot;</span>]);</span><br><span class="line"><span class="variable">$website</span> = <span class="title function_ invoke__">test_input</span>(<span class="variable">$_POST</span>[<span class="string">&quot;website&quot;</span>]);</span><br><span class="line"><span class="variable">$comment</span> = <span class="title function_ invoke__">test_input</span>(<span class="variable">$_POST</span>[<span class="string">&quot;comment&quot;</span>]);</span><br><span class="line"><span class="variable">$gender</span> = <span class="title function_ invoke__">test_input</span>(<span class="variable">$_POST</span>[<span class="string">&quot;gender&quot;</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test_input</span>(<span class="params"><span class="variable">$data</span></span>) </span>&#123;</span><br><span class="line"><span class="variable">$data</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$data</span>);</span><br><span class="line"><span class="variable">$data</span> = <span class="title function_ invoke__">stripslashes</span>(<span class="variable">$data</span>);</span><br><span class="line"><span class="variable">$data</span> = <span class="title function_ invoke__">htmlspecialchars</span>(<span class="variable">$data</span>);</span><br><span class="line"><span class="keyword">return</span> <span class="variable">$data</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>PHP学习笔记</category>
-      </categories>
-      <tags>
-        <tag>PHP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CTF-web-信息泄露</title>
     <url>/2022/03/09/CTF/web-%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/</url>
     <content><![CDATA[<h2 id="Git泄露">Git泄露</h2>
@@ -279,76 +231,51 @@
       </tags>
   </entry>
   <entry>
-    <title>搭建XuperChain链过程</title>
-    <url>/2022/02/14/%E7%8E%AF%E5%A2%83/%E6%90%AD%E5%BB%BAXuperChain%E9%93%BE%E8%BF%87%E7%A8%8B/</url>
-    <content><![CDATA[<p><a href="https://github.com/xuperchain/xuperchain#xuperchain%E6%98%AF%E4%BB%80%E4%B9%88">参考文档</a></p>
-<h2 id="环境准备">环境准备</h2>
+    <title>【数据结构篇】链表</title>
+    <url>/2022/02/15/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E3%80%90%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%AF%87%E3%80%91%E9%93%BE%E8%A1%A8%EF%BC%88c%E8%AF%AD%E8%A8%80%EF%BC%89/</url>
+    <content><![CDATA[<h1>【数据结构篇】链表</h1>
+<h2 id="设计链表">设计链表</h2>
 <ul>
-<li>虚拟机Ubuntu</li>
-<li>配置git<br>
-<code>sudo apt install git</code></li>
-<li>配置golang<br>
-<code>sudo apt install golang-go</code><br>
-检查go的环境是否配置完成可用命令<br>
-<code>go version</code><br>
-若出现如此标识表示成功配置<br>
-<img src="https://img-blog.csdnimg.cn/b46a91244b054654bd5eefbcd9f5f146.png#pic_center" alt="在这里插入图片描述"></li>
+<li>在链表类中实现这些功能：</li>
 </ul>
-<h2 id="编译XuperChain">编译XuperChain</h2>
+<blockquote>
+<p>·get(index)：获取链表中第 index 个节点的值。如果索引无效，则返回-1。<br>
+·addAtHead(val)：在链表的第一个元素之前添加一个值为 val 的节点。插入后，新节点将成为链表的第一个节点。<br>
+·addAtTail(val)：将值为 val 的节点追加到链表的最后一个元素。<br>
+·addAtIndex(index,val)：在链表中的第 index 个节点之前添加值为 val  的节点。如果 index 等于链表的长度，则该节点将附加到链表的末尾。如果 index 大于链表长度，则不会插入节点。如果index小于0，则在头部插入节点。<br>
+·deleteAtIndex(index)：如果索引 index 有效，则删除链表中的第 index 个节点。</p>
+</blockquote>
 <ul>
-<li>
-<p>使用git下载源码到本地<br>
-<code>git clone https://github.com/xuperchain/xuperchain.git</code></p>
-</li>
-<li>
-<p>编译<br>
-<code>cd xuperchain (总之进入xuperchain这个目录）</code><br>
-直接make可能会连接失败 像这样被拒绝访问<br>
-<img src="https://img-blog.csdnimg.cn/10890c447b2840aa9e6f7f44ea4d0ab4.png#pic_center" alt="在这里插入图片描述"><br>
-所以先执行<br>
-<code>go env -w GOPROXY=https://goproxy.cn</code><br>
-更改权限<br>
-<code>su chmod 777 xuperchain路径</code><br>
-再<br>
-<code>make</code><br>
-编译顺利进行<br>
-<img src="https://img-blog.csdnimg.cn/47117a65baae4a36a4fc8effae3bd123.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA57Sr54KB,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
-</li>
-<li>
-<p>跑单测测试<br>
-<code>make test</code><br>
-<img src="https://img-blog.csdnimg.cn/d9cdf877a54e42409dee4ce0d715e649.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA57Sr54KB,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"><br>
-==上述命令均在xuperchain目录下进行==</p>
-</li>
-<li>
-<p>构建单节点xchain<br>
-<code>cd ./output (进入output文件）</code><br>
-直接执行脚本会报错<br>
-<img src="https://img-blog.csdnimg.cn/2b1323f37e6448fc85b33ed023310c09.png#pic_center" alt="在这里插入图片描述"><br>
-需要先执行<br>
-<code>sudo dpkg-reconfigure dash</code><br>
-然后依次执行<br>
-<code>sh ./control.sh start</code><br>
-<code>./bin/xchain-cli status</code><br>
-生成这样的就成功构建了<br>
-<img src="https://img-blog.csdnimg.cn/99810a38fafe494ca69ae599b71ca73e.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA57Sr54KB,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
-</li>
-<li>
-<p>构建多节点<br>
-首先<br>
-<code>cd ..</code>将目录切回上级的xuperchain<br>
-然后再<br>
-<code>make testnet</code><br>
-此后顺次执行文档中的命令即可</p>
-</li>
+<li><em>代码示例如下</em></li>
 </ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">MyLinkedList_t</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">int</span> val;</span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">MyLinkedList_t</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125; MyLinkedList;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Initialize your data structure here. */</span></span><br><span class="line"></span><br><span class="line">MyLinkedList *<span class="title function_">myLinkedListCreate</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	MyLinkedList *obj = (MyLinkedList *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(MyLinkedList));</span><br><span class="line">	obj-&gt;val = <span class="number">0</span>;</span><br><span class="line">	obj-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">return</span> obj;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">myLinkedListGet</span><span class="params">(MyLinkedList *obj, <span class="type">int</span> index)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (index &lt; <span class="number">0</span> || obj-&gt;next == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="type">int</span> now = <span class="number">0</span>;</span><br><span class="line">	MyLinkedList *listNow = obj-&gt;next;</span><br><span class="line">	<span class="keyword">while</span> (now &lt; index)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (listNow == <span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		listNow = listNow-&gt;next;</span><br><span class="line">		now++;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (listNow != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> listNow-&gt;val;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">myLinkedListAddAtHead</span><span class="params">(MyLinkedList *obj, <span class="type">int</span> val)</span></span><br><span class="line">&#123;</span><br><span class="line">	MyLinkedList *Node = (MyLinkedList *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(MyLinkedList));</span><br><span class="line">	Node-&gt;val = val;</span><br><span class="line">	Node-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (obj-&gt;next == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		obj-&gt;next = Node;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		Node-&gt;next = obj-&gt;next;</span><br><span class="line">		obj-&gt;next = Node;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Append a node of value val to the last element of the linked list. */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">myLinkedListAddAtTail</span><span class="params">(MyLinkedList *obj, <span class="type">int</span> val)</span></span><br><span class="line">&#123;</span><br><span class="line">	MyLinkedList *Node = (MyLinkedList *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(MyLinkedList));</span><br><span class="line">	Node-&gt;val = val;</span><br><span class="line">	Node-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">	MyLinkedList *nowList = obj;</span><br><span class="line">	<span class="keyword">while</span> (nowList-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		nowList = nowList-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	nowList-&gt;next = Node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">myLinkedListAddAtIndex</span><span class="params">(MyLinkedList *obj, <span class="type">int</span> index, <span class="type">int</span> val)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (index &lt;= <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		myLinkedListAddAtHead(obj, val);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> now = <span class="number">0</span>;</span><br><span class="line">	MyLinkedList *nowList = obj-&gt;next;</span><br><span class="line">	<span class="keyword">while</span> (nowList-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (now == index - <span class="number">1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		nowList = nowList-&gt;next;</span><br><span class="line">		now++;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (index - <span class="number">1</span> != now)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	MyLinkedList *Node = (MyLinkedList *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(MyLinkedList));</span><br><span class="line">	Node-&gt;val = val;</span><br><span class="line">	Node-&gt;next = nowList-&gt;next;</span><br><span class="line">	nowList-&gt;next = Node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Delete the index-th node in the linked list, if the index is valid. */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">myLinkedListDeleteAtIndex</span><span class="params">(MyLinkedList *obj, <span class="type">int</span> index)</span></span><br><span class="line">&#123;</span><br><span class="line">	MyLinkedList *r;</span><br><span class="line">	<span class="keyword">if</span> (index &lt; <span class="number">0</span> || obj-&gt;next == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (index == <span class="number">0</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		r = obj-&gt;next;</span><br><span class="line">		obj-&gt;next = obj-&gt;next-&gt;next;</span><br><span class="line">		<span class="built_in">free</span>(r);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	MyLinkedList *nowList = obj-&gt;next;</span><br><span class="line">	<span class="type">int</span> now = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (nowList-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (now == index - <span class="number">1</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		nowList = nowList-&gt;next;</span><br><span class="line">		now++;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (now == index - <span class="number">1</span> &amp;&amp; nowList-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		r = nowList-&gt;next;</span><br><span class="line">		nowList-&gt;next = nowList-&gt;next-&gt;next;</span><br><span class="line">		<span class="built_in">free</span>(r);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">myNodeFree</span><span class="params">(MyLinkedList *Node)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (Node-&gt;next != <span class="literal">NULL</span>)</span><br><span class="line">&#123;</span><br><span class="line">    myNodeFree(Node-&gt;next);</span><br><span class="line">    Node-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">free</span>(Node);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">myLinkedListFree</span><span class="params">(MyLinkedList *obj)</span></span><br><span class="line">&#123;<span class="comment">//从最后一个结点向前逐渐释放，这里用递归实现</span></span><br><span class="line">    myNodeFree(obj);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="环形链表">环形链表</h2>
+<ul>
+<li>可以用<strong>快慢指针</strong>判断是否有环（有环返回真，无环返回假）</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">      <span class="type">int</span> val;</span><br><span class="line">      <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> *<span class="title">next</span>;</span></span><br><span class="line">  &#125;ListNode;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="title function_">hasCycle</span><span class="params">(<span class="keyword">struct</span> ListNode *head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(head==<span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        ListNode *f=head;</span><br><span class="line">        ListNode *s=head;</span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(f-&gt;next==<span class="literal">NULL</span>||f-&gt;next-&gt;next==<span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            f=f-&gt;next-&gt;next;<span class="comment">//f为走两步的快指针</span></span><br><span class="line">            s=s-&gt;next;<span class="comment">//s为走一步的慢指针</span></span><br><span class="line">        &#125;<span class="keyword">while</span>(f!=s);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;<span class="comment">//如果有环一定能相遇</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><em>如果要返回==入环的第一个结点==呢？</em></li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20210613191744346.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NreWVfcg==,size_16,color_FFFFFF,t_70#pic_center" alt="示例"><br>
+可以这样分析：<br>
+1 慢指针走过的路程为a(头结点到环入口的距离)+b(慢指针在环内的距离)<br>
+2 快指针走过的路程为a+b+c(相遇点到换入口的距离)+b<br>
+3 因为快指针速度是慢指针的两倍，所以可以导出a=c<br>
+4 所以只要再安排一个位于头结点的指针和慢指针同时出发，它们的相遇位置即为环入口</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> ListNode *<span class="title function_">detectCycle</span><span class="params">(<span class="keyword">struct</span> ListNode *head)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(head==<span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> *<span class="title">f</span>=</span>head;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span> *<span class="title">s</span>=</span>head;</span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(f-&gt;next==<span class="literal">NULL</span>||f-&gt;next-&gt;next==<span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            f=f-&gt;next-&gt;next;<span class="comment">//f为走两步的快指针</span></span><br><span class="line">            s=s-&gt;next;<span class="comment">//s为走一步的慢指针</span></span><br><span class="line">        &#125;<span class="keyword">while</span>(f!=s);</span><br><span class="line">       <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>*<span class="title">p</span>=</span>head;</span><br><span class="line">       <span class="keyword">while</span>(p!=s)</span><br><span class="line">       &#123;</span><br><span class="line">           p=p-&gt;next;</span><br><span class="line">           s=s-&gt;next;</span><br><span class="line">       &#125;</span><br><span class="line">        <span class="keyword">return</span> p;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="回文链表">回文链表</h2>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">struct</span> ListNode* <span class="title function_">reverseList</span><span class="params">(<span class="keyword">struct</span> ListNode* head)</span> &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">prev</span> =</span> <span class="literal">NULL</span>;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">curr</span> =</span> head;</span><br><span class="line">    <span class="keyword">while</span> (curr != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">nextTemp</span> =</span> curr-&gt;next;</span><br><span class="line">        curr-&gt;next = prev;</span><br><span class="line">        prev = curr;</span><br><span class="line">        curr = nextTemp;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> prev;</span><br><span class="line">&#125;<span class="comment">//反转链表</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">struct</span> ListNode* <span class="title function_">endOfFirstHalf</span><span class="params">(<span class="keyword">struct</span> ListNode* head)</span> &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">fast</span> =</span> head;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">slow</span> =</span> head;</span><br><span class="line">    <span class="keyword">while</span> (fast-&gt;next != <span class="literal">NULL</span> &amp;&amp; fast-&gt;next-&gt;next != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        fast = fast-&gt;next-&gt;next;</span><br><span class="line">        slow = slow-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> slow;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">bool</span> <span class="title function_">isPalindrome</span><span class="params">(<span class="keyword">struct</span> ListNode* head)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (head == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 找到前半部分链表的尾节点并反转后半部分链表</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">firstHalfEnd</span> =</span> endOfFirstHalf(head);</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">secondHalfStart</span> =</span> reverseList(firstHalfEnd-&gt;next);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断是否回文</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">p1</span> =</span> head;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">ListNode</span>* <span class="title">p2</span> =</span> secondHalfStart;</span><br><span class="line">    <span class="type">bool</span> result = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">while</span> (result &amp;&amp; p2 != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (p1-&gt;val != p2-&gt;val) &#123;</span><br><span class="line">            result = <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        p1 = p1-&gt;next;</span><br><span class="line">        p2 = p2-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 还原链表并返回结果</span></span><br><span class="line">    firstHalfEnd-&gt;next = reverseList(secondHalfStart);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><s>持续更新中</s></p>
 ]]></content>
       <categories>
-        <category>环境配置</category>
-        <category>XuperChain</category>
+        <category>数据结构</category>
+        <category>链表</category>
       </categories>
       <tags>
-        <tag>XuperChain</tag>
+        <tag>C语言</tag>
+        <tag>数据结构</tag>
+        <tag>链表</tag>
       </tags>
   </entry>
   <entry>
@@ -456,92 +383,6 @@ o(M)<br>
       </tags>
   </entry>
   <entry>
-    <title>【算法篇】排序——快速排序（c语言）</title>
-    <url>/2022/02/15/%E7%AE%97%E6%B3%95/%E3%80%90%E7%AE%97%E6%B3%95%E7%AF%87%E3%80%91%E6%8E%92%E5%BA%8F%E2%80%94%E2%80%94%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%EF%BC%88c%E8%AF%AD%E8%A8%80%EF%BC%89/</url>
-    <content><![CDATA[<h1>【算法篇】排序——快速排序（c语言）</h1>
-<h2 id="核心思想">核心思想</h2>
-<ul>
-<li>排序算法的思想非常简单，在待排序的数列中，首先要找一个数字作为基准数（这只是个专用名词）。为了方便，我们一般选择第 1 个数字作为基准数（其实可以<strong>随便选</strong>）。然后把这个待排序的数列中小于基准数的元素移动到它的左边，大于它的移到右边。这时，左右两个分区的元素就相对有序了；接着把两个分区的元素分别重复上述步骤，直到各个分区只有一个数时为止。</li>
-</ul>
-<h2 id="代码示例">代码示例</h2>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">swap</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> *b)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> tmp;</span><br><span class="line">    tmp = *a;</span><br><span class="line">    *a = *b;</span><br><span class="line">    *b = tmp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">quick_sort</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> mid = in[(l + r) / <span class="number">2</span>];<span class="comment">//这里是选择中间值作为基准</span></span><br><span class="line">    <span class="type">int</span> i = l, j = r;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (in[i] &lt; mid)</span><br><span class="line">            i++; <span class="comment">//找到左边比基准值大的数的位置</span></span><br><span class="line">        <span class="keyword">while</span> (in[j] &gt; mid)</span><br><span class="line">            j--; <span class="comment">//找右边小的</span></span><br><span class="line">        <span class="keyword">if</span> (i &lt;= j)</span><br><span class="line">        &#123;</span><br><span class="line">            swap(&amp;(in[i]), &amp;(in[j])); <span class="comment">//交换使左边的小右边的大</span></span><br><span class="line">            i++;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (i &lt;= j);</span><br><span class="line">    <span class="keyword">if</span>(l&lt;j)</span><br><span class="line">        quick_sort(l, j);<span class="comment">//排左边</span></span><br><span class="line">    <span class="keyword">if</span>(r&gt;i)</span><br><span class="line">        quick_sort(i, r);<span class="comment">//排右边</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><s>当然了一般情况下不用自己写（毕竟有现成的）</s><br>
-<em>来看一下炒鸡好用的qsort函数</em></p>
-<h2 id="qsort函数的用法">qsort函数的用法</h2>
-<h3 id="函数声明">函数声明</h3>
-<blockquote>
-<p>void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void <em>, const void</em>))</p>
-</blockquote>
-<h3 id="参数说明">参数说明</h3>
-<blockquote>
-<p>base-- 指向要排序的数组的第一个元素的指针。<br>
-nitems-- 由 base 指向的数组中元素的个数。<br>
-size-- 数组中每个元素的大小，以字节为单位。<br>
-==compar-- 用来比较两个元素的函数，即函数指针（回调函数）==</p>
-</blockquote>
-<ul>
-<li>compar函数的形式决定了对谁排序*</li>
-</ul>
-<p>int compar(const void<em>p1, const void</em>p2);</p>
-<table>
-<thead>
-<tr>
-<th>compar函数的返回值</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>&lt;0</td>
-<td>p1所指向元素将被排在p2所指向元素的左面</td>
-</tr>
-<tr>
-<td>=0</td>
-<td>p1所指向元素与p2所指向元素的顺序不确定</td>
-</tr>
-<tr>
-<td>&gt;0</td>
-<td>p1所指向元素会被排在p2所指向元素的右面</td>
-</tr>
-</tbody>
-</table>
-<h3 id="具体用法说明">具体用法说明</h3>
-<ul>
-<li>对一维数组</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">comp</span><span class="params">(<span class="type">const</span> <span class="type">void</span>*a,<span class="type">const</span> <span class="type">void</span>*b)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> *(<span class="type">int</span>*)a-*(<span class="type">int</span>*)b;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-<ul>
-<li>对二维数组</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">comp</span><span class="params">(<span class="type">const</span> <span class="type">void</span>*a,<span class="type">const</span> <span class="type">void</span>*b)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> ((<span class="type">int</span>*)a)[<span class="number">0</span>]-((<span class="type">int</span>*)b)[<span class="number">0</span>];</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-<ul>
-<li>对字符串</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">Comp</span><span class="params">(<span class="type">const</span> <span class="type">void</span>*p1,<span class="type">const</span> <span class="type">void</span>*p2)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strcmp</span>((<span class="type">char</span>*)p2,(<span class="type">char</span>*)p1);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> a[MAX1][MAX2];</span><br><span class="line">    initial(a);</span><br><span class="line">    qsort(a,lenth,<span class="keyword">sizeof</span>(a[<span class="number">0</span>]),Comp);</span><br><span class="line">    <span class="comment">//lenth为数组a的长度 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>对结构体一级排序</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">double</span> data;</span><br><span class="line">    <span class="type">int</span> other;</span><br><span class="line">&#125;s[<span class="number">100</span>];</span><br><span class="line"><span class="type">int</span> <span class="title function_">Comp</span><span class="params">(constvoid*p1,constvoid*p2)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span>(*(Node*)p2).data&gt;(*（Node*）p1).data?<span class="number">1</span>:<span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line">qsort(s,<span class="number">100</span>,<span class="keyword">sizeof</span>(s[<span class="number">0</span>]),Comp);</span><br></pre></td></tr></table></figure>
-<ul>
-<li>对结构体多级排序</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">int</span> x;</span><br><span class="line">    <span class="type">int</span> y;</span><br><span class="line">&#125;s[<span class="number">100</span>];</span><br><span class="line"><span class="comment">//按照x从小到大排序，当x相等时按y从大到小排序</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">Comp</span><span class="params">(<span class="type">const</span> <span class="type">void</span>*p1,<span class="type">const</span> <span class="type">void</span>*p2)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node</span>*<span class="title">c</span>=</span>(Node*)p1;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node</span>*<span class="title">d</span>=</span>(Node*)p2;</span><br><span class="line">    <span class="keyword">if</span>(c-&gt;x!=d-&gt;x)returnc-&gt;x-d-&gt;x;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> d-&gt;y-c-&gt;y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>对结构体的字符串</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">int</span> data;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>];</span><br><span class="line">&#125;s[<span class="number">100</span>];</span><br><span class="line"><span class="comment">//按照结构体中字符串str的字典序排序</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">Comp</span><span class="params">(<span class="type">const</span> <span class="type">void</span>*p1,<span class="type">const</span> <span class="type">void</span>*p2)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strcmp</span>((*(Node*)p1).str,(*(Node*)p2).str);</span><br><span class="line">&#125;</span><br><span class="line">qsort(s,<span class="number">100</span>,<span class="keyword">sizeof</span>(s[<span class="number">0</span>]),Comp);</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>算法笔记</category>
-        <category>排序</category>
-      </categories>
-      <tags>
-        <tag>C语言</tag>
-        <tag>算法</tag>
-        <tag>快排</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>关于出栈序列的解法总结及卡特兰数的学习（C语言）</title>
     <url>/2022/02/15/%E7%AE%97%E6%B3%95/%E5%85%B3%E4%BA%8E%E5%87%BA%E6%A0%88%E5%BA%8F%E5%88%97%E7%9A%84%E8%A7%A3%E6%B3%95%E6%80%BB%E7%BB%93%E5%8F%8A%E5%8D%A1%E7%89%B9%E5%85%B0%E6%95%B0%E7%9A%84%E5%AD%A6%E4%B9%A0%EF%BC%88C%E8%AF%AD%E8%A8%80%EF%BC%89/</url>
     <content><![CDATA[<h1>出栈次序</h1>
@@ -630,6 +471,165 @@ ans = f[0]*f[n-1] + f[1]*f[n-2] + … + f[n-1]*f[0];</li>
         <tag>C语言</tag>
         <tag>算法</tag>
         <tag>栈</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>【算法篇】排序——快速排序（c语言）</title>
+    <url>/2022/02/15/%E7%AE%97%E6%B3%95/%E3%80%90%E7%AE%97%E6%B3%95%E7%AF%87%E3%80%91%E6%8E%92%E5%BA%8F%E2%80%94%E2%80%94%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%EF%BC%88c%E8%AF%AD%E8%A8%80%EF%BC%89/</url>
+    <content><![CDATA[<h1>【算法篇】排序——快速排序（c语言）</h1>
+<h2 id="核心思想">核心思想</h2>
+<ul>
+<li>排序算法的思想非常简单，在待排序的数列中，首先要找一个数字作为基准数（这只是个专用名词）。为了方便，我们一般选择第 1 个数字作为基准数（其实可以<strong>随便选</strong>）。然后把这个待排序的数列中小于基准数的元素移动到它的左边，大于它的移到右边。这时，左右两个分区的元素就相对有序了；接着把两个分区的元素分别重复上述步骤，直到各个分区只有一个数时为止。</li>
+</ul>
+<h2 id="代码示例">代码示例</h2>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">swap</span><span class="params">(<span class="type">int</span> *a, <span class="type">int</span> *b)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> tmp;</span><br><span class="line">    tmp = *a;</span><br><span class="line">    *a = *b;</span><br><span class="line">    *b = tmp;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">quick_sort</span><span class="params">(<span class="type">int</span> l, <span class="type">int</span> r)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> mid = in[(l + r) / <span class="number">2</span>];<span class="comment">//这里是选择中间值作为基准</span></span><br><span class="line">    <span class="type">int</span> i = l, j = r;</span><br><span class="line">    <span class="keyword">do</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">while</span> (in[i] &lt; mid)</span><br><span class="line">            i++; <span class="comment">//找到左边比基准值大的数的位置</span></span><br><span class="line">        <span class="keyword">while</span> (in[j] &gt; mid)</span><br><span class="line">            j--; <span class="comment">//找右边小的</span></span><br><span class="line">        <span class="keyword">if</span> (i &lt;= j)</span><br><span class="line">        &#123;</span><br><span class="line">            swap(&amp;(in[i]), &amp;(in[j])); <span class="comment">//交换使左边的小右边的大</span></span><br><span class="line">            i++;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">while</span> (i &lt;= j);</span><br><span class="line">    <span class="keyword">if</span>(l&lt;j)</span><br><span class="line">        quick_sort(l, j);<span class="comment">//排左边</span></span><br><span class="line">    <span class="keyword">if</span>(r&gt;i)</span><br><span class="line">        quick_sort(i, r);<span class="comment">//排右边</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><s>当然了一般情况下不用自己写（毕竟有现成的）</s><br>
+<em>来看一下炒鸡好用的qsort函数</em></p>
+<h2 id="qsort函数的用法">qsort函数的用法</h2>
+<h3 id="函数声明">函数声明</h3>
+<blockquote>
+<p>void qsort(void *base, size_t nitems, size_t size, int (*compar)(const void <em>, const void</em>))</p>
+</blockquote>
+<h3 id="参数说明">参数说明</h3>
+<blockquote>
+<p>base-- 指向要排序的数组的第一个元素的指针。<br>
+nitems-- 由 base 指向的数组中元素的个数。<br>
+size-- 数组中每个元素的大小，以字节为单位。<br>
+==compar-- 用来比较两个元素的函数，即函数指针（回调函数）==</p>
+</blockquote>
+<ul>
+<li>compar函数的形式决定了对谁排序*</li>
+</ul>
+<p>int compar(const void<em>p1, const void</em>p2);</p>
+<table>
+<thead>
+<tr>
+<th>compar函数的返回值</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;0</td>
+<td>p1所指向元素将被排在p2所指向元素的左面</td>
+</tr>
+<tr>
+<td>=0</td>
+<td>p1所指向元素与p2所指向元素的顺序不确定</td>
+</tr>
+<tr>
+<td>&gt;0</td>
+<td>p1所指向元素会被排在p2所指向元素的右面</td>
+</tr>
+</tbody>
+</table>
+<h3 id="具体用法说明">具体用法说明</h3>
+<ul>
+<li>对一维数组</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">comp</span><span class="params">(<span class="type">const</span> <span class="type">void</span>*a,<span class="type">const</span> <span class="type">void</span>*b)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> *(<span class="type">int</span>*)a-*(<span class="type">int</span>*)b;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<ul>
+<li>对二维数组</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">comp</span><span class="params">(<span class="type">const</span> <span class="type">void</span>*a,<span class="type">const</span> <span class="type">void</span>*b)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> ((<span class="type">int</span>*)a)[<span class="number">0</span>]-((<span class="type">int</span>*)b)[<span class="number">0</span>];</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<ul>
+<li>对字符串</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">Comp</span><span class="params">(<span class="type">const</span> <span class="type">void</span>*p1,<span class="type">const</span> <span class="type">void</span>*p2)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strcmp</span>((<span class="type">char</span>*)p2,(<span class="type">char</span>*)p1);</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">char</span> a[MAX1][MAX2];</span><br><span class="line">    initial(a);</span><br><span class="line">    qsort(a,lenth,<span class="keyword">sizeof</span>(a[<span class="number">0</span>]),Comp);</span><br><span class="line">    <span class="comment">//lenth为数组a的长度 </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对结构体一级排序</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">double</span> data;</span><br><span class="line">    <span class="type">int</span> other;</span><br><span class="line">&#125;s[<span class="number">100</span>];</span><br><span class="line"><span class="type">int</span> <span class="title function_">Comp</span><span class="params">(constvoid*p1,constvoid*p2)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span>(*(Node*)p2).data&gt;(*（Node*）p1).data?<span class="number">1</span>:<span class="number">-1</span>;</span><br><span class="line">&#125;</span><br><span class="line">qsort(s,<span class="number">100</span>,<span class="keyword">sizeof</span>(s[<span class="number">0</span>]),Comp);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对结构体多级排序</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">int</span> x;</span><br><span class="line">    <span class="type">int</span> y;</span><br><span class="line">&#125;s[<span class="number">100</span>];</span><br><span class="line"><span class="comment">//按照x从小到大排序，当x相等时按y从大到小排序</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">Comp</span><span class="params">(<span class="type">const</span> <span class="type">void</span>*p1,<span class="type">const</span> <span class="type">void</span>*p2)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node</span>*<span class="title">c</span>=</span>(Node*)p1;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">Node</span>*<span class="title">d</span>=</span>(Node*)p2;</span><br><span class="line">    <span class="keyword">if</span>(c-&gt;x!=d-&gt;x)returnc-&gt;x-d-&gt;x;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> d-&gt;y-c-&gt;y;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对结构体的字符串</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    <span class="type">int</span> data;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>];</span><br><span class="line">&#125;s[<span class="number">100</span>];</span><br><span class="line"><span class="comment">//按照结构体中字符串str的字典序排序</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">Comp</span><span class="params">(<span class="type">const</span> <span class="type">void</span>*p1,<span class="type">const</span> <span class="type">void</span>*p2)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">strcmp</span>((*(Node*)p1).str,(*(Node*)p2).str);</span><br><span class="line">&#125;</span><br><span class="line">qsort(s,<span class="number">100</span>,<span class="keyword">sizeof</span>(s[<span class="number">0</span>]),Comp);</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>算法笔记</category>
+        <category>排序</category>
+      </categories>
+      <tags>
+        <tag>C语言</tag>
+        <tag>算法</tag>
+        <tag>快排</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>搭建XuperChain链过程</title>
+    <url>/2022/02/14/%E7%8E%AF%E5%A2%83/%E6%90%AD%E5%BB%BAXuperChain%E9%93%BE%E8%BF%87%E7%A8%8B/</url>
+    <content><![CDATA[<p><a href="https://github.com/xuperchain/xuperchain#xuperchain%E6%98%AF%E4%BB%80%E4%B9%88">参考文档</a></p>
+<h2 id="环境准备">环境准备</h2>
+<ul>
+<li>虚拟机Ubuntu</li>
+<li>配置git<br>
+<code>sudo apt install git</code></li>
+<li>配置golang<br>
+<code>sudo apt install golang-go</code><br>
+检查go的环境是否配置完成可用命令<br>
+<code>go version</code><br>
+若出现如此标识表示成功配置<br>
+<img src="https://img-blog.csdnimg.cn/b46a91244b054654bd5eefbcd9f5f146.png#pic_center" alt="在这里插入图片描述"></li>
+</ul>
+<h2 id="编译XuperChain">编译XuperChain</h2>
+<ul>
+<li>
+<p>使用git下载源码到本地<br>
+<code>git clone https://github.com/xuperchain/xuperchain.git</code></p>
+</li>
+<li>
+<p>编译<br>
+<code>cd xuperchain (总之进入xuperchain这个目录）</code><br>
+直接make可能会连接失败 像这样被拒绝访问<br>
+<img src="https://img-blog.csdnimg.cn/10890c447b2840aa9e6f7f44ea4d0ab4.png#pic_center" alt="在这里插入图片描述"><br>
+所以先执行<br>
+<code>go env -w GOPROXY=https://goproxy.cn</code><br>
+更改权限<br>
+<code>su chmod 777 xuperchain路径</code><br>
+再<br>
+<code>make</code><br>
+编译顺利进行<br>
+<img src="https://img-blog.csdnimg.cn/47117a65baae4a36a4fc8effae3bd123.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA57Sr54KB,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
+</li>
+<li>
+<p>跑单测测试<br>
+<code>make test</code><br>
+<img src="https://img-blog.csdnimg.cn/d9cdf877a54e42409dee4ce0d715e649.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA57Sr54KB,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"><br>
+==上述命令均在xuperchain目录下进行==</p>
+</li>
+<li>
+<p>构建单节点xchain<br>
+<code>cd ./output (进入output文件）</code><br>
+直接执行脚本会报错<br>
+<img src="https://img-blog.csdnimg.cn/2b1323f37e6448fc85b33ed023310c09.png#pic_center" alt="在这里插入图片描述"><br>
+需要先执行<br>
+<code>sudo dpkg-reconfigure dash</code><br>
+然后依次执行<br>
+<code>sh ./control.sh start</code><br>
+<code>./bin/xchain-cli status</code><br>
+生成这样的就成功构建了<br>
+<img src="https://img-blog.csdnimg.cn/99810a38fafe494ca69ae599b71ca73e.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA57Sr54KB,size_20,color_FFFFFF,t_70,g_se,x_16#pic_center" alt="在这里插入图片描述"></p>
+</li>
+<li>
+<p>构建多节点<br>
+首先<br>
+<code>cd ..</code>将目录切回上级的xuperchain<br>
+然后再<br>
+<code>make testnet</code><br>
+此后顺次执行文档中的命令即可</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>环境配置</category>
+        <category>XuperChain</category>
+      </categories>
+      <tags>
+        <tag>XuperChain</tag>
       </tags>
   </entry>
   <entry>
