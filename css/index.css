@@ -183,6 +183,9 @@ template {
 
 /*移动端优化：去除归档、标签、最新文章、公告、、只保留网站统计*/
 
+
+/*移动端优化：去除归档、标签、最新文章、公告、、只保留网站统计*/
+
 @media screen and (max-width: 800px) {
     #aside_content div:not(:last-child) {
         display: none;
@@ -1545,6 +1548,18 @@ blockquote footer cite:before {
 }
 blockquote > :last-child {
   margin-bottom: 0 !important;
+}
+@font-face {
+  font-family: Pompiere;
+  src: url("https://fonts.font.im/css?family=Pompiere");
+}
+body {
+  font-family: 'Pompiere', cursive;
+}
+@media screen and (max-width: $sm) {
+  body {
+    font-size: 13px;
+  }
 }
 :root {
   --hl-color: #90a4ae;
