@@ -79,28 +79,16 @@
 <td style="text-align:center">Q</td>
 <td style="text-align:center">U</td>
 </tr>
-</tbody>
-</table>
-<table>
-<thead>
 <tr>
-<th style="text-align:center">V</th>
-<th style="text-align:center">W</th>
-<th style="text-align:center">X</th>
-<th style="text-align:center">Y</th>
-<th style="text-align:center">Z</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">(3) 两个矩阵加密得到的密文一样。通过观察发现可以第一个矩阵通过行列变化得到第二个矩阵。因为通过行列变化不影响Playfair规则下的替换，推广结论为若两个密钥生成的Playfair矩阵可以通过一定行列变化相互转换则其加密同一明文得到相同密文。</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
+<td style="text-align:center">V</td>
+<td style="text-align:center">W</td>
+<td style="text-align:center">X</td>
+<td style="text-align:center">Y</td>
+<td style="text-align:center">Z</td>
 </tr>
 </tbody>
 </table>
+<p>(3) 两个矩阵加密得到的密文一样。通过观察发现可以第一个矩阵通过行列变化得到第二个矩阵。因为通过行列变化不影响Playfair规则下的替换，推广结论为若两个密钥生成的Playfair矩阵可以通过一定行列变化相互转换则其加密同一明文得到相同密文。</p>
 <p>(4) 5x5矩阵共有25!种排列，其中每个元素有25个位置可以放，固定其余字母随其一起移动，即每个元素有25种等效矩阵，计算得：</p>
 <p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mtable rowspacing="0.25em" columnalign="right left" columnspacing="0em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mfrac><mrow><mn>25</mn><mo stretchy="false">!</mo></mrow><mn>25</mn></mfrac><mo>=</mo><mn>24</mn><mo stretchy="false">!</mo></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>=</mo><mn>620</mn><mo separator="true">,</mo><mn>448</mn><mo separator="true">,</mo><mn>401</mn><mo separator="true">,</mo><mn>733</mn><mo separator="true">,</mo><mn>239</mn><mo separator="true">,</mo><mn>439</mn><mo separator="true">,</mo><mn>360</mn><mo separator="true">,</mo><mn>000</mn></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow></mrow></mstyle></mtd><mtd><mstyle scriptlevel="0" displaystyle="true"><mrow><mrow></mrow><mo>≈</mo><msup><mn>2</mn><mn>79</mn></msup></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{aligned}
 \frac{25!}{25}=24!&amp;=620,448,401,733,239,439,360,000\\
