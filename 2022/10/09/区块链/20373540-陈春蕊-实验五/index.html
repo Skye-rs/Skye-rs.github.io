@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="紫炁">
+
+
+
+
+
+<title>实验五 | 紫炁のBLOG</title>
+
+
+
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/猫爪.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Skye&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Skye&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">实验五</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">紫炁</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十月 9, 2022&nbsp;&nbsp;15:54:27</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="实验1-Solidity基础">实验1 Solidity基础</h2>
+<h3 id="实验流程">实验流程</h3>
+<ul>
+<li>新建文件AnimalIncubators.sol</li>
+<li>建立一个基础合约 AnimalIncubators，并指定Solidity编译器版本</li>
+<li>创建宠物结构体与所用常量，及公共数组<code>animals[]</code></li>
+<li>依据描述完成<code>_createAnimal、_generateRandomDna、createRandomAnimal</code>三个函数</li>
+</ul>
+<h3 id="实验代码">实验代码</h3>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pragma solidity &gt;=0.4.12 &lt;0.6.0;</span><br><span class="line"></span><br><span class="line">contract Animallncubators &#123;</span><br><span class="line">    uint dnaDigits = 16;</span><br><span class="line">    uint dnaLength = 10**16;</span><br><span class="line">    struct Animal &#123;</span><br><span class="line">        uint dna;</span><br><span class="line">        string name;</span><br><span class="line">    &#125;</span><br><span class="line">    Animal[] public animals;</span><br><span class="line">    event NewAnimal(uint AnimalId, string name, uint dna);</span><br><span class="line">    function _createAnimal(string _name, uint _dna) private &#123;</span><br><span class="line">        animals.push(Animal(_dna, _name));</span><br><span class="line">        uint _animalId = animals.length - 1;</span><br><span class="line">        NewAnimal(_animalId, _name, _dna);</span><br><span class="line">    &#125;</span><br><span class="line">    function _generateRandomDna(string _str) private view returns (uint)&#123;</span><br><span class="line">        uint rand = uint(keccak256(_str));</span><br><span class="line">        return rand % dnaLength;</span><br><span class="line">    &#125;</span><br><span class="line">    function createRandomAnimal(string _name) public &#123;</span><br><span class="line">        uint randDna = _generateRandomDna(_name);</span><br><span class="line">        _createAnimal(_name, randDna);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实验效果">实验效果</h3>
+<p>如图部署合约后创建三个分别叫Drogon、Rheagal、Viserion的宠物</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013143629630.png" alt="image-20221013143629630"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013143729922.png" alt="image-20221013143729922"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013143805379.png" alt="image-20221013143805379"></p>
+<h2 id="实验二-Solidity进阶——宠物成长系统">实验二 Solidity进阶——宠物成长系统</h2>
+<h3 id="实验流程-2">实验流程</h3>
+<ul>
+<li>创建两个映射<code> AnimalToOwner、ownerAnimalCount</code>记录宠物拥有者的地址和某地址所拥有宠物的数量。</li>
+<li>修改<code>_createAnimal</code>函数来使用映射，得到新宠物后更新映射</li>
+<li>修改<code>createRandomAnimal</code>函数，使得每个用户只能调用该函数一次</li>
+<li>完成<code>AnimalFeeding</code>合约，增加进食和成长功能： 当一个宠物进食后，它自身的DNA将与食物的DNA结合在一起，形成一个新的宠物DNA</li>
+</ul>
+<h3 id="实验代码-2">实验代码</h3>
+<p><code>AnimalIncubators2.sol</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pragma solidity &gt;=0.4.12 &lt;0.6.0;</span><br><span class="line"></span><br><span class="line">contract Animallncubators &#123;</span><br><span class="line">    uint dnaDigits = 16;</span><br><span class="line">    uint dnaLength = 10**16;</span><br><span class="line">    struct Animal &#123;</span><br><span class="line">        uint dna;</span><br><span class="line">        string name;</span><br><span class="line">    &#125;</span><br><span class="line">    Animal[] public animals;</span><br><span class="line">    event NewAnimal(uint AnimalId, string name, uint dna);</span><br><span class="line">    </span><br><span class="line">    mapping(uint=&gt;address) AnimalToOwner;</span><br><span class="line">    mapping(address=&gt;uint) ownerAnimalCount;</span><br><span class="line">    </span><br><span class="line">    function _createAnimal(string _name, uint _dna) internal &#123;</span><br><span class="line">        animals.push(Animal(_dna, _name));</span><br><span class="line">        uint _animalId = animals.length - 1;</span><br><span class="line">        AnimalToOwner[_animalId]=msg.sender;</span><br><span class="line">        ownerAnimalCount[msg.sender]+=1;</span><br><span class="line">        NewAnimal(_animalId, _name, _dna);</span><br><span class="line">    &#125;</span><br><span class="line">    function _generateRandomDna(string _str) private view returns (uint)&#123;</span><br><span class="line">        uint rand = uint(keccak256(_str));</span><br><span class="line">        return rand % dnaLength;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function createRandomAnimal(string _name) public &#123;</span><br><span class="line">        require(ownerAnimalCount[msg.sender]==0);</span><br><span class="line">        </span><br><span class="line">        uint randDna = _generateRandomDna(_name);</span><br><span class="line">        _createAnimal(_name, randDna);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>AnimalFeeding.sol</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pragma solidity &gt;=0.4.12 &lt;0.6.0;</span><br><span class="line">import &quot;./AnimalIncubators2.sol&quot;;</span><br><span class="line"></span><br><span class="line">contract AnimalFeeding is Animallncubators&#123;</span><br><span class="line">    function feedAndGrow(uint _AnimalId,uint _targetDna) internal &#123;</span><br><span class="line">        require (keccak256(AnimalToOwner[_AnimalId])==keccak256(msg.sender));</span><br><span class="line">        Animal storage myAnimal=animals[_AnimalId];</span><br><span class="line">        uint _tDna=_targetDna%dnaDigits;</span><br><span class="line">        uint _newDna=uint((myAnimal.dna+_tDna)/2);</span><br><span class="line">        _newDna=(_newDna/100)*100+99;</span><br><span class="line">        _createAnimal(&quot;No-one&quot;,_newDna);</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function _catchFood(uint _name) internal pure returns (uint) &#123;</span><br><span class="line">      uint rand = uint(keccak256(_name));</span><br><span class="line">      return rand;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function feedOnFood(uint _AnimalId,uint _FoodId) public&#123;</span><br><span class="line">        uint _FoodDna=_catchFood(_FoodId);</span><br><span class="line">        feedAndGrow(_AnimalId,_FoodDna);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实验效果-2">实验效果</h3>
+<p>首先生成一个宠物</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013152312911.png" alt="image-20221013152312911"></p>
+<p>在同一地址下生成第二只宠物报错</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013152412427.png" alt="image-20221013152412427"></p>
+<p>在其他地址下生成另外两只宠物<img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013194828520.png" alt="image-20221013194828520"></p>
+<p>给Drogon喂食，产生了No-one</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013153529625.png" alt="image-20221013153529625"></p>
+<h2 id="实验三-Solidity高阶理论">实验三 Solidity高阶理论</h2>
+<h3 id="实验流程-3">实验流程</h3>
+<ul>
+<li>创建<code> ownable.sol</code>，并在<code>createRandomAnimal</code>函数中添加<code>onlyOwner</code></li>
+<li>更新宠物结构的属性，新添<code>level readyTime</code></li>
+<li>修改<code>feedAndGrow</code>函数实现冷却效果</li>
+<li>完成<code>changeName  changeDna getAnimalsByOwner </code>函数</li>
+</ul>
+<h3 id="实验代码-3">实验代码</h3>
+<p><code>AnimalIncubators3.sol</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pragma solidity &gt;=0.4.12 &lt;0.6.0;</span><br><span class="line">import &quot;./ownable.sol&quot;;</span><br><span class="line"></span><br><span class="line">contract Animallncubators is Ownable &#123;</span><br><span class="line">    uint dnaDigits = 16;</span><br><span class="line">    uint dnaLength = 10**16;</span><br><span class="line">    struct Animal &#123;</span><br><span class="line">        uint dna;</span><br><span class="line">        string name;</span><br><span class="line">        uint32 level;</span><br><span class="line">        uint32 readyTime;</span><br><span class="line">    &#125;</span><br><span class="line">    uint32 cooldownTime = 60;</span><br><span class="line">    </span><br><span class="line">    Animal[] public animals;</span><br><span class="line">    event NewAnimal(uint AnimalId, string name, uint dna);</span><br><span class="line">    </span><br><span class="line">    mapping(uint=&gt;address) AnimalToOwner;</span><br><span class="line">    mapping(address=&gt;uint) ownerAnimalCount;</span><br><span class="line">    </span><br><span class="line">    function _createAnimal(string _name, uint _dna) internal &#123;</span><br><span class="line">        animals.push(Animal(_dna, _name,0,uint32(now)));</span><br><span class="line">        uint _animalId = animals.length - 1;</span><br><span class="line">        AnimalToOwner[_animalId]=msg.sender;</span><br><span class="line">        ownerAnimalCount[msg.sender]+=1;</span><br><span class="line">        NewAnimal(_animalId, _name, _dna);</span><br><span class="line">    &#125;</span><br><span class="line">    function _generateRandomDna(string _str) private view returns (uint)&#123;</span><br><span class="line">        uint rand = uint(keccak256(_str));</span><br><span class="line">        return rand % dnaLength;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function createRandomAnimal(string _name) public &#123;</span><br><span class="line">        require(ownerAnimalCount[msg.sender]==0);</span><br><span class="line">        </span><br><span class="line">        uint randDna = _generateRandomDna(_name);</span><br><span class="line">        _createAnimal(_name, randDna);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>AnimalFeeding.sol</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pragma solidity &gt;=0.4.12 &lt;0.6.0;</span><br><span class="line">import &quot;./AnimalIncubators3.sol&quot;;</span><br><span class="line"></span><br><span class="line">contract AnimalFeeding is Animallncubators&#123;</span><br><span class="line">    function feedAndGrow(uint _AnimalId,uint _targetDna) internal &#123;</span><br><span class="line">        require (keccak256(AnimalToOwner[_AnimalId])==keccak256(msg.sender));</span><br><span class="line">        Animal storage myAnimal=animals[_AnimalId];</span><br><span class="line">        </span><br><span class="line">        require(now&gt;=myAnimal.readyTime);</span><br><span class="line">        </span><br><span class="line">        uint _tDna=_targetDna%dnaDigits;</span><br><span class="line">        uint _newDna=uint((myAnimal.dna+_tDna)/2);</span><br><span class="line">        _newDna=(_newDna/100)*100+99;</span><br><span class="line">        _createAnimal(&quot;No-one&quot;,_newDna);</span><br><span class="line">        </span><br><span class="line">        myAnimal.readyTime=uint32(now)+cooldownTime;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function _catchFood(uint _name) internal pure returns (uint) &#123;</span><br><span class="line">      uint rand = uint(keccak256(_name));</span><br><span class="line">      return rand;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function feedOnFood(uint _AnimalId,uint _FoodId) public&#123;</span><br><span class="line">        uint _FoodDna=_catchFood(_FoodId);</span><br><span class="line">        feedAndGrow(_AnimalId,_FoodDna);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>AnimalHelper.sol</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pragma solidity &gt;=0.4.12 &lt;0.6.0;</span><br><span class="line">import &quot;./AnimalFeeding.sol&quot;;</span><br><span class="line"></span><br><span class="line">contract AnimalHelper is AnimalFeeding&#123;</span><br><span class="line">    modifier aboveLevel (uint _level,uint _AnimalId)&#123;</span><br><span class="line">        require(animals[_AnimalId].level&gt;=_level);</span><br><span class="line">        _;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function changeName(uint _AnimalId,string _newName) external aboveLevel(2,_AnimalId)&#123;</span><br><span class="line">        require(keccak256(msg.sender)==keccak256(AnimalToOwner[_AnimalId]));</span><br><span class="line">        animals[_AnimalId].name=_newName;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function changeDna(uint _AnimalId,uint _newDna) external aboveLevel(20,_AnimalId)&#123;</span><br><span class="line">        require(keccak256(msg.sender)==keccak256(AnimalToOwner[_AnimalId]));</span><br><span class="line">        animals[_AnimalId].dna=_newDna;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    function getAnimalsByOwner(address _owner)external view returns(uint[])&#123;</span><br><span class="line">        uint [] memory result=new uint[](ownerAnimalCount[_owner]);</span><br><span class="line">        uint count=0;</span><br><span class="line">        for(uint i=0;i&lt;animals.length;i++)&#123;</span><br><span class="line">            if(keccak256(AnimalToOwner[i])==keccak256(_owner))&#123;</span><br><span class="line">                result[count]=i;</span><br><span class="line">                count+=1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="实验效果-3">实验效果</h3>
+<p>onlyOwner</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013155425795.png" alt="image-20221013155425795"></p>
+<p>新建一个小动物喂食</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013161950806.png" alt="image-20221013161950806"></p>
+<p>再喂一次冷却还没到，报错</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013162023288.png" alt="image-20221013162023288"></p>
+<p>再给1号喂</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013162057057.png" alt="image-20221013162057057"><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013162057249.png" alt="image-20221013162057249"></p>
+<p>这时候总共有0，1，2三只</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013162135266.png" alt="image-20221013162135266"></p>
+<p>看一下<code>getAnimalsByOwner</code>函数效果</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/10/09/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94/image-20221013162210136.png" alt="image-20221013162210136"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>紫炁</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E9%AA%8C/"># 区块链实验</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/10/10/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/20373540_%E9%99%88%E6%98%A5%E8%95%8A_%E4%BF%A1%E5%8F%B7%E7%AC%AC%E4%B8%89%E6%AC%A1%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">信号与系统第三次实验</a>
+            
+            
+            <a class="next" rel="next" href="/2022/10/04/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E5%9B%9B/">实验四</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 紫炁 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>

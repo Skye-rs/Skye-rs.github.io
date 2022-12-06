@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="紫炁">
+
+
+
+
+
+<title>信号与系统第一次实验 | 紫炁のBLOG</title>
+
+
+
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/猫爪.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Skye&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Skye&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">信号与系统第一次实验</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">紫炁</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 10, 2022&nbsp;&nbsp;15:54:27</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F/">信号与系统</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="实验内容-4">实验内容</h2>
+<h3 id="1-f-t-left-2-e-t-right-u-t-1-2-4-内">(1) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>=</mo><mrow><mo fence="true">(</mo><mn>2</mn><mo>+</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>t</mi></mrow></msup><mo fence="true">)</mo></mrow><mi>u</mi><mo stretchy="false">(</mo><mi>t</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(t)=\left(2+e^{-t}\right) u(t+1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.0436em;vertical-align:-0.25em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7936em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">t</span></span></span></span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">)</span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">u</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span>,  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo>−</mo><mn>2</mn><mo separator="true">,</mo><mn>4</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(-2,4)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">4</span><span class="mclose">)</span></span></span></span> 内</h3>
+<h4 id="代码-12">代码</h4>
+<p>引入预习手册中的Heaviside函数，直接编写函数即可</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">clear</span><br><span class="line">t= <span class="number">-2</span>:<span class="number">0.001</span>:<span class="number">4</span>;</span><br><span class="line">k=<span class="number">1</span>;a=<span class="number">-1</span>;</span><br><span class="line">f=(<span class="number">2</span>+k*<span class="built_in">exp</span>(a*t)).*Heaviside(t+<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(t,f);</span><br><span class="line">grid;xlabel(<span class="string">&#x27;t&#x27;</span>);ylabel(<span class="string">&#x27;f(t)&#x27;</span>);</span><br><span class="line">title(<span class="string">&#x27;f(t)=(2+e^-t)u(t+1)&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="仿真图-10">仿真图</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/09/10/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%AE%9E%E9%AA%8C/1-1.jpg" alt="1-1"></p>
+<h3 id="2-f-t-cos-t-u-sin-t-0-3-10-10-内">(2)$ f(t)=\cos (t) u(\sin (t)+0.3)$,  <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo>−</mo><mn>10</mn><mo separator="true">,</mo><mn>10</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(-10,10)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">10</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">10</span><span class="mclose">)</span></span></span></span> 内</h3>
+<h4 id="代码-13">代码</h4>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">clear</span><br><span class="line">t= <span class="number">-10</span>:<span class="number">0.001</span>:<span class="number">10</span>;</span><br><span class="line">f=<span class="built_in">cos</span>(t).*Heaviside(<span class="built_in">sin</span>(t)+<span class="number">0.3</span>);</span><br><span class="line"><span class="built_in">plot</span>(t,f);</span><br><span class="line">grid;xlabel(<span class="string">&#x27;t&#x27;</span>);ylabel(<span class="string">&#x27;f(t)&#x27;</span>);</span><br><span class="line">title(<span class="string">&#x27;f(t)=cos(t)u(sin(t)+0.3)&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="仿真图-11">仿真图</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/09/10/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%AE%9E%E9%AA%8C/1-2.jpg" alt="1-2"></p>
+<h3 id="（3）离散信号-f-n-2-0-8-n-u-n-在自变量范围-2-4-内绘图">（3）离散信号 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">[</mo><mi>n</mi><mo stretchy="false">]</mo><mo>=</mo><mo stretchy="false">(</mo><mn>2</mn><mo>−</mo><mn>0.8</mn><mi>n</mi><mo stretchy="false">)</mo><mi>u</mi><mo stretchy="false">[</mo><mi>n</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">f[n]=(2-0.8 n) u[n]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">0.8</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mord mathnormal">u</span><span class="mopen">[</span><span class="mord mathnormal">n</span><span class="mclose">]</span></span></span></span>, 在自变量范围 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo>−</mo><mn>2</mn><mo separator="true">,</mo><mn>4</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(-2,4)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">4</span><span class="mclose">)</span></span></span></span> 内绘图</h3>
+<h4 id="代码-14">代码</h4>
+<p>离散信号要用更改为生成阶跃序列的函数jyxl(),并使用<code>stem</code>绘制</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">clear</span><br><span class="line">n= <span class="number">-2</span>:<span class="number">1</span>:<span class="number">4</span>;</span><br><span class="line">f=(<span class="number">2</span><span class="number">-0.8</span>*n).*jyxl(n);</span><br><span class="line">stem(n,f);</span><br><span class="line">grid;xlabel(<span class="string">&#x27;n&#x27;</span>);ylabel(<span class="string">&#x27;f[n]&#x27;</span>);</span><br><span class="line">title(<span class="string">&#x27;f[n] = (2 - 0.8n)u[n]&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="仿真图-12">仿真图</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/09/10/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%AE%9E%E9%AA%8C/1-3.jpg" alt="1-3"></p>
+<h3 id="4-在多张子图上绘制以下信号-提示-使用-subplot-函数-：">(4) 在多张子图上绘制以下信号 (提示, 使用 subplot 函数)：</h3>
+<ul>
+<li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>=</mo><mn>4</mn><mi>sin</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><mn>3</mn><mi>t</mi><mo>+</mo><mfrac><mi>π</mi><mn>2</mn></mfrac><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">f(t)=4 \sin \left(3 t+\frac{\pi}{2}\right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.2em;vertical-align:-0.35em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">sin</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mord">3</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6954em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">π</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span></span></span></span>, 自变量范围 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo>−</mo><mn>5</mn><mo separator="true">,</mo><mn>5</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(-5,5)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mclose">)</span></span></span></span> ；</li>
+<li>正弦序列 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>4</mn><mo>∗</mo></msup><mi>sin</mi><mo>⁡</mo><mrow><mo fence="true">(</mo><mfrac><mi>π</mi><mn>6</mn></mfrac><mi>k</mi><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">4^* \sin \left(\frac{\pi}{6} k\right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.2em;vertical-align:-0.35em;"></span><span class="mord"><span class="mord">4</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.6887em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mbin mtight">∗</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">sin</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.6954em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">6</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">π</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord mathnormal" style="margin-right:0.03148em;">k</span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span></span></span></span>, 自变量范围 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo>−</mo><mn>15</mn><mo separator="true">,</mo><mn>15</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(-15,15)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">15</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">15</span><span class="mclose">)</span></span></span></span> 。</li>
+</ul>
+<h4 id="代码-15">代码</h4>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">clear</span><br><span class="line">t= <span class="number">-5</span>:<span class="number">0.001</span>:<span class="number">5</span>;</span><br><span class="line">f=<span class="number">4</span>*<span class="built_in">sin</span>(<span class="number">3</span>*t+<span class="built_in">pi</span>/<span class="number">2</span>);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(t,f);</span><br><span class="line">axis([<span class="number">-15</span>, <span class="number">15</span>,<span class="number">-4</span>,<span class="number">4</span>])</span><br><span class="line">grid;xlabel(<span class="string">&#x27;t&#x27;</span>);ylabel(<span class="string">&#x27;f(t)&#x27;</span>);</span><br><span class="line">title(<span class="string">&#x27;f(t)= 4sin(3t+pi/2)&#x27;</span>);</span><br><span class="line"></span><br><span class="line">k= <span class="number">-15</span>:<span class="number">0.001</span>:<span class="number">15</span>;</span><br><span class="line">f=<span class="number">4</span>*<span class="built_in">sin</span>(<span class="built_in">pi</span>/<span class="number">6</span>*k);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(k,f);</span><br><span class="line">grid;xlabel(<span class="string">&#x27;k&#x27;</span>);ylabel(<span class="string">&#x27;f(k)&#x27;</span>);</span><br><span class="line">title(<span class="string">&#x27;f(k)= 4sin(pi*k/6)&#x27;</span>);</span><br><span class="line">axis([<span class="number">-15</span>, <span class="number">15</span>,<span class="number">-4</span>,<span class="number">4</span>])</span><br></pre></td></tr></table></figure>
+<h4 id="仿真图-13">仿真图</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/09/10/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%AE%9E%E9%AA%8C/1-4.jpg" alt="1-4"></p>
+<h3 id="5-在多张子图上绘制以下信号（提示-使用-subplot-函数">(5) 在多张子图上绘制以下信号（提示, 使用 subplot 函数)</h3>
+<ul>
+<li>
+<p>近似的冲激信号 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>δ</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\delta(t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.03785em;">δ</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span> ：</p>
+</li>
+<li>
+<p>方波信号, 要求 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>&lt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">x&lt;0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> 时幅度为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\pm 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">±</span><span class="mord">1</span></span></span></span>, 周期为 2 , 占空比为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>30</mn><mi mathvariant="normal">%</mi><mo separator="true">;</mo><mi>x</mi><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">30 \% ; x \geq 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9444em;vertical-align:-0.1944em;"></span><span class="mord">30%</span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span> 时 周期为 1 , 占空比为 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>60</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">60 \%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">60%</span></span></span></span> 。自变量取值范围 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo>−</mo><mn>5</mn><mo separator="true">,</mo><mn>5</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(-5,5)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord">5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">5</span><span class="mclose">)</span></span></span></span> 。提示: 可采用 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>u</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">u(t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">u</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span> 函数辅助做出该信号。</p>
+</li>
+</ul>
+<h4 id="代码-16">代码</h4>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">t0=<span class="number">-5</span>;tf=<span class="number">5</span>;dt=<span class="number">0.001</span>;t1=<span class="number">0</span>; </span><br><span class="line">t=[t0:dt:tf];st=<span class="built_in">length</span>(t); </span><br><span class="line">n1=<span class="built_in">floor</span>((t1-t0)/dt); </span><br><span class="line">x1=<span class="built_in">zeros</span>(<span class="number">1</span>,st);x1(n1)=<span class="number">1</span>/dt;</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line">stairs(t,x1);</span><br><span class="line">grid minor;axis([<span class="number">-5</span>,<span class="number">5</span>,<span class="number">-1</span>,<span class="number">20</span>]);title(<span class="string">&#x27;近似的冲激信号&#x27;</span>);</span><br><span class="line"></span><br><span class="line">x=<span class="number">-5</span>:<span class="number">0.001</span>:<span class="number">5</span>;</span><br><span class="line">f=square(<span class="built_in">pi</span>*x,<span class="number">30</span>).*Heaviside(-x)+square(<span class="number">2</span>*<span class="built_in">pi</span>*x,<span class="number">60</span>).*Heaviside(x);</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(x, f);</span><br><span class="line">grid minor;xlabel(<span class="string">&#x27;t&#x27;</span>);ylabel(<span class="string">&#x27;f(t)&#x27;</span>);</span><br><span class="line">title(<span class="string">&#x27;方波信号&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="仿真图-14">仿真图</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/09/10/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%AE%9E%E9%AA%8C/1-5.jpg" alt="1-5"></p>
+<h3 id="6-已知信号-f-1-u-t-3-5-u-t-3-5-f-2-t-cos-pi-t-。">(6) 已知信号 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo>=</mo><mi>u</mi><mo stretchy="false">(</mo><mi>t</mi><mo>+</mo><mn>3.5</mn><mo stretchy="false">)</mo><mo>−</mo><mi>u</mi><mo stretchy="false">(</mo><mi>t</mi><mo>−</mo><mn>3.5</mn><mo stretchy="false">)</mo><mo separator="true">,</mo><msub><mi>f</mi><mn>2</mn></msub><mo>=</mo><mi>t</mi><mi>cos</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>π</mi><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f_1=u(t+3.5)-u(t-3.5), f_2=t \cos (\pi t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">u</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">3.5</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">u</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">3.5</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">cos</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span> 。</h3>
+<ul>
+<li>
+<p>在同一张图上绘制 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>+</mo><msub><mi>f</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f_1(t)+f_2(t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>×</mo><msub><mi>f</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f_1(t) \times f_2(t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span> 的波形 (使用 hold on 语句);</p>
+<h4 id="代码-17">代码</h4>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">t= <span class="number">-10</span>:<span class="number">0.001</span>:<span class="number">10</span>;</span><br><span class="line">f1=Heaviside(t+<span class="number">3.5</span>)-Heaviside(t<span class="number">-3.5</span>);</span><br><span class="line">f2=t.*<span class="built_in">cos</span>(<span class="built_in">pi</span>*t);</span><br><span class="line"><span class="built_in">plot</span>(t,f1+f2);</span><br><span class="line"><span class="built_in">hold</span> on</span><br><span class="line">grid on;</span><br><span class="line"><span class="built_in">plot</span>(t, f1.*f2);</span><br><span class="line">xlabel(<span class="string">&#x27;t&#x27;</span>)</span><br><span class="line"><span class="built_in">legend</span>(<span class="string">&#x27;f1(t)+f2(t)&#x27;</span>,<span class="string">&#x27;f1(t)*f2(t)&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="仿真图-15">仿真图</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/09/10/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%AE%9E%E9%AA%8C/1-6-1.jpg" alt="1-6-1"></p>
+</li>
+<li>
+<p>在多张子图上绘制 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>1</mn></msub><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>×</mo><msub><mi>f</mi><mn>2</mn></msub><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f_1(t) \times f_2(t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span> 的积分与微分结果 (使用 subplot 函数, 推 存使用 integral 函数而不是 quad 函数进行积分)。</p>
+<p>写这个的时候有些波折，一开始没有搞清楚<code>integral</code>的用法，经过一番努力搞清楚它需要接收一个句柄函数，然后返回数值积分(double型)，这样就可以用它来模拟计算变上限积分（这样做可能有一些冗余，应该是有能够直接求积分的函数？暂时没有查到），其次是可以优化代码为将6—9行封装为一个脚本直接调用</p>
+<p>微分计算可以使用 <code>diff</code> 函数和语法 <code>Y = diff(f)/h</code> 求偏导数近似值，需要注意的是<code>plot(x,y)</code>函数中x与y的需要对应，第一个参数应变更为<code>t(1:length(t)-1)</code></p>
+<h4 id="代码-18">代码</h4>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">t= <span class="number">-10</span>:<span class="number">0.001</span>:<span class="number">10</span>;</span><br><span class="line">f1=Heaviside(t+<span class="number">3.5</span>)-Heaviside(t<span class="number">-3.5</span>);</span><br><span class="line">f2=t.*<span class="built_in">cos</span>(<span class="built_in">pi</span>*t);</span><br><span class="line">y=f1.*f2;</span><br><span class="line"></span><br><span class="line">g=@(t)( t.*<span class="built_in">cos</span>(<span class="built_in">pi</span>*t).*(((t+<span class="number">3.5</span>)&gt;=<span class="number">0</span>)-((t<span class="number">-3.5</span>)&gt;=<span class="number">0</span>)));</span><br><span class="line"><span class="keyword">for</span> x=<span class="number">1</span>:<span class="built_in">length</span>(t)</span><br><span class="line">    F(x)= integral(g,<span class="number">-10</span>,t(x));</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(t,F);</span><br><span class="line">grid on;xlabel(<span class="string">&#x27;t&#x27;</span>);ylabel(<span class="string">&#x27;F(t)&#x27;</span>);</span><br><span class="line">title(<span class="string">&#x27;f1(t)*f2(t)的积分结果&#x27;</span>);</span><br><span class="line"></span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">1</span>,<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(t(<span class="number">1</span>:<span class="built_in">length</span>(t)<span class="number">-1</span>),diff(y)*<span class="number">1</span>/dt);</span><br><span class="line">grid on;xlabel(<span class="string">&#x27;t&#x27;</span>);ylabel(<span class="string">&#x27;h(t)&#x27;</span>);</span><br><span class="line">title(<span class="string">&#x27;f1(t)*f2(t)的微分结果&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="仿真图1-6-2">仿真图<img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/09/10/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%AE%9E%E9%AA%8C/1-6-2.jpg" alt="1-6-2"></h4>
+</li>
+</ul>
+<h3 id="7-已知信号-f-t-t-times-u-t-u-t-1-在多张子图上绘制-f-t-1-f-t-2-f-0-5-t-f-2-t-使用-subplot-函数-。">(7) 已知信号 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>=</mo><mi>t</mi><mo>×</mo><mo stretchy="false">[</mo><mi>u</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo>−</mo><mi>u</mi><mo stretchy="false">(</mo><mi>t</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">f(t)=t \times[u(t)-u(t-1)]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6984em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal">u</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">u</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)]</span></span></span></span>, 在多张子图上绘制 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>t</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>f</mi><mo stretchy="false">(</mo><mi>t</mi><mo>+</mo><mn>2</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(t-1), f(t+2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mclose">)</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mn>0.5</mn><mi>t</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>f</mi><mo stretchy="false">(</mo><mn>2</mn><mi>t</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(0.5 t), f(2 t)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord">0.5</span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord">2</span><span class="mord mathnormal">t</span><span class="mclose">)</span></span></span></span> (使用 subplot 函数)。</h3>
+<h4 id="代码-19">代码</h4>
+<p>本题要求实现信号的尺度变换，按要求改变自变量即可</p>
+<figure class="highlight matlab"><table><tr><td class="code"><pre><span class="line">t=<span class="number">-5</span>:<span class="number">0.01</span>:<span class="number">5</span>;</span><br><span class="line">f2=(t+<span class="number">2</span>).*(Heaviside(t+<span class="number">2</span>)-Heaviside(t<span class="number">-1</span>+<span class="number">2</span>));</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>);</span><br><span class="line"><span class="built_in">plot</span>(t, f2);</span><br><span class="line">grid on;xlabel(<span class="string">&#x27;t&#x27;</span>);ylabel(<span class="string">&#x27;f(t+2)&#x27;</span>);axis([<span class="number">-3</span>, <span class="number">3</span> ,<span class="number">0</span>, <span class="number">1</span>]);</span><br><span class="line">title(<span class="string">&#x27;f(t+2)&#x27;</span>);</span><br><span class="line"></span><br><span class="line">f1=(t<span class="number">-1</span>).*(Heaviside(t<span class="number">-1</span>)-Heaviside(t<span class="number">-2</span>));</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>);</span><br><span class="line"><span class="built_in">plot</span>(t, f1);</span><br><span class="line">grid on;xlabel(<span class="string">&#x27;t&#x27;</span>);ylabel(<span class="string">&#x27;f(t-1)&#x27;</span>);axis([<span class="number">-3</span>, <span class="number">3</span> ,<span class="number">0</span>, <span class="number">1</span>]);</span><br><span class="line">title(<span class="string">&#x27;f(t-1)&#x27;</span>);</span><br><span class="line"></span><br><span class="line">f3=<span class="number">0.5</span>*t.*(Heaviside(<span class="number">0.5</span>*t)-Heaviside(<span class="number">0.5</span>*t<span class="number">-1</span>));</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line"><span class="built_in">plot</span>(t, f3);</span><br><span class="line">grid on;xlabel(<span class="string">&#x27;t&#x27;</span>);ylabel(<span class="string">&#x27;f(0.5t)&#x27;</span>);axis([<span class="number">-3</span>, <span class="number">3</span> ,<span class="number">0</span>, <span class="number">1</span>]);</span><br><span class="line">title(<span class="string">&#x27;f(0.5t)&#x27;</span>);</span><br><span class="line"></span><br><span class="line">f4=<span class="number">2</span>*t.*(Heaviside(<span class="number">2</span>*t)-Heaviside(<span class="number">2</span>*t<span class="number">-1</span>));</span><br><span class="line">subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>);</span><br><span class="line"><span class="built_in">plot</span>(t, f4);</span><br><span class="line">grid on;xlabel(<span class="string">&#x27;t&#x27;</span>);ylabel(<span class="string">&#x27;f(2t)&#x27;</span>);axis([<span class="number">-3</span>, <span class="number">3</span> ,<span class="number">0</span>, <span class="number">1</span>]);</span><br><span class="line">title(<span class="string">&#x27;f(2t)&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="仿真图-16">仿真图</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2022/09/10/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%AE%9E%E9%AA%8C/1-7.jpg" alt="1-7"></p>
+<h2 id="思考题-4">思考题</h2>
+<ul>
+<li>
+<p>什么是单位冲激信号？能够用 MATLAB 产生单位冲激信号吗？</p>
+<p>单位冲激信号指<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo mathvariant="normal">≠</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">t\neq 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mrel"><span class="mord vbox"><span class="thinbox"><span class="rlap"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="inner"><span class="mord"><span class="mrel"></span></span></span><span class="fix"></span></span></span></span></span><span class="mrel">=</span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>时,信号量恒为0,在<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">t=0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6151em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0</span></span></span></span>时信号量为无穷大,但是信号在时间上的积分为1.MATLAB不能产生真正的冲激信号,因为这是一种理想化模型,但是可以采用微积分思想模拟近似产生单位冲激信号.</p>
+</li>
+<li>
+<p>MATLAB 中如何编写自定义函数？模块化有什么优缺点？</p>
+<p>将自定义函数封装为另一个.m文件放在同一目录中,直接调用即可。</p>
+<p>模块化的优点是代码可维护性高、减少代码冗余提高开发效率、代码架构清晰一目了然。</p>
+<p>模块化的缺点是损耗性能，系统分层调用链长；不方便传递，需要装特定依赖。</p>
+</li>
+<li>
+<p>diff 函数的功能是求数组元素之间的差分，如何用 diff 函数求连续函数的微分？</p>
+<p>diff(f)将f视为函数值在某些域x上计算的向量，当把域x分到足够细就可以求微分了</p>
+</li>
+</ul>
+<h2 id="实验收获与感想-2">实验收获与感想</h2>
+<p>通过本次实验我有如下一些收获：</p>
+<ul>
+<li>熟悉了MATLAB的基本使用，学会了使用其产生基本信号与进行运算</li>
+<li>进一步加深了对微积分思想的理解，学会利用MATLAB来模拟计算一些理想化模型</li>
+<li>对于不同的信号借以MATLAB的辅助分析认识的更加清晰</li>
+</ul>
+<p>此外，预习手册中有不少内容没有出现在实验中，但也应该理解并加以应用。尽管本实验只是对MATLAB的简单使用，但足以让我感受到MATLAB这一工具对于信号分析的巨大帮助，之后要勤加练习熟练使用来深化对于信号与系统的学习。</p>
+<p>同时也感谢教学团队制作的详细的预习手册，对于自学来讲有很大的帮助。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>紫炁</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/MATLAB%E5%AE%9E%E9%AA%8C/"># MATLAB实验</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/09/15/%E5%8C%BA%E5%9D%97%E9%93%BE/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E9%AA%8C/">区块链实验</a>
+            
+            
+            <a class="next" rel="next" href="/2022/08/30/CTF/DeelMind%E5%B0%8F%E7%99%BD%E7%BD%91%E5%AE%89%E5%85%A5%E9%97%A8/">DeelMind小白网安入门</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 紫炁 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
