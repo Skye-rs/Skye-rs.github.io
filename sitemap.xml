@@ -2,6 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://skye-rs.github.io/about/index.html</loc>
+    
+    <lastmod>2022-12-06</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://skye-rs.github.io/categories/index.html</loc>
+    
+    <lastmod>2022-12-06</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://skye-rs.github.io/tags/index.html</loc>
+    
+    <lastmod>2022-12-06</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://skye-rs.github.io/2022/09/10/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%AE%9E%E9%AA%8C/</loc>
     
     <lastmod>2022-12-06</lastmod>
@@ -272,14 +299,14 @@
 
   
   <url>
-    <loc>http://skye-rs.github.io/tags/Web%E5%AE%89%E5%85%A8/</loc>
+    <loc>http://skye-rs.github.io/tags/hexo/</loc>
     <lastmod>2022-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://skye-rs.github.io/tags/hexo/</loc>
+    <loc>http://skye-rs.github.io/tags/Web%E5%AE%89%E5%85%A8/</loc>
     <lastmod>2022-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -384,14 +411,21 @@
   </url>
   
   <url>
-    <loc>http://skye-rs.github.io/tags/JavaScript/</loc>
+    <loc>http://skye-rs.github.io/tags/%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2022-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://skye-rs.github.io/tags/python/</loc>
+    <loc>http://skye-rs.github.io/tags/%E5%BF%AB%E6%8E%92/</loc>
+    <lastmod>2022-12-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://skye-rs.github.io/tags/JavaScript/</loc>
     <lastmod>2022-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -405,14 +439,7 @@
   </url>
   
   <url>
-    <loc>http://skye-rs.github.io/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2022-12-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>http://skye-rs.github.io/tags/%E5%BF%AB%E6%8E%92/</loc>
+    <loc>http://skye-rs.github.io/tags/python/</loc>
     <lastmod>2022-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -428,14 +455,14 @@
 
   
   <url>
-    <loc>http://skye-rs.github.io/categories/CTF/</loc>
+    <loc>http://skye-rs.github.io/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</loc>
     <lastmod>2022-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://skye-rs.github.io/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</loc>
+    <loc>http://skye-rs.github.io/categories/CTF/</loc>
     <lastmod>2022-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -449,14 +476,14 @@
   </url>
   
   <url>
-    <loc>http://skye-rs.github.io/categories/CTF/web/</loc>
+    <loc>http://skye-rs.github.io/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/</loc>
     <lastmod>2022-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>http://skye-rs.github.io/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/</loc>
+    <loc>http://skye-rs.github.io/categories/CTF/web/</loc>
     <lastmod>2022-12-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
