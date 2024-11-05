@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="紫炁">
+
+
+
+
+
+<title>紫炁のBLOG</title>
+
+
+
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/猫爪.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Skye&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Skye&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title"></h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">紫炁</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 7, 2023&nbsp;&nbsp;16:14:30</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="会议">会议</h2>
+<ul>
+<li>
+<p><strong>CVPR</strong>是 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/IEEE/150905">IEEE</a> Conference on Computer Vision and Pattern Recognition的缩写，即IEEE国际 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/2803351">计算机视觉</a> 与 <a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E6%A8%A1%E5%BC%8F%E8%AF%86%E5%88%AB/295301">模式识别</a> 会议。该会议是由IEEE举办的计算机视觉和模式识别领域的顶级会议。</p>
+</li>
+<li>
+<p><strong>Usenix Security Symposium</strong> (USENIX Security)，是网络安全领域四大最高级别的国际学术会议之一，始于上世纪90年代初，曾经发表难度极高，近几年录取量才开始放开。USENIX Security是CCF推荐A类会议，Core Conference Ranking A*类会议，H-5指数80，Impact Score 13.04。USENIX Security录用的文章基本限于hardcore systems类型。</p>
+</li>
+<li>
+<p>Transactions on Information Forensics &amp; Security</p>
+</li>
+<li>
+<p><strong>DAC</strong>，全称 Proceedings of the ACM/EDAC/IEEE Design Automation Conference。DAC是以电子设计系统（(EDA）、嵌入式系统及软件（ESS）和知识产权（IP）为主题的大会。DAC会议是集成电路设计界最顶级的会议，被誉为EDA界的奥斯卡，是全球领先的技术性大会和电子设计设计自动化商展。DAC是CCF 推荐A类会议，Core Conference Ranking推荐C类会议，H5 index为52，Impact Score 6.93</p>
+</li>
+</ul>
+<h2 id="边松">边松</h2>
+<p>研究方向：特定领域加速器、应用密码学、AI安全</p>
+<h3 id="论文">论文</h3>
+<ul>
+<li>
+<p>Song Bian, Weiwen Jiang, and Takashi Sato, Privacy-Preserving Medical Image Segmentation via Hybrid Trusted Execution Environment, ACM/IEEE Design Automation Conference (DAC), July 2021</p>
+<p>通过混合可信执行环境保护隐私的医学图像分割</p>
+</li>
+<li>
+<p>Song Bian, Weiwen Jiang, Qing Lu, Yiyu Shi, and Takashi Sato, NASS: Optimizing Secure Inference via Neural Architecture Search, in Proc. of European Conference on Artificial Intelligence (ECAI) (Virtual), June 2020.</p>
+</li>
+<li>
+<p>Song Bian, Tianchen Wang, Masayuki Hiromoto, Yiyu Shi, and Takashi Sato, ENSEI: <strong>Efficient Secure Inference via Frequency-Domain Homomorphic Convolution for PrivacyPreserving Visual Recognition</strong>, in Proc. of IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) (Virtual), pp.9403-9412, June 2020</p>
+<p>基于频域同态卷积的保密视觉识别的高效安全推理</p>
+</li>
+<li></li>
+</ul>
+<h2 id="方向">方向</h2>
+<ul>
+<li>
+<p>物联网双向认证</p>
+<p>基于SRAM-PUF的物联网轻量级相互认证方案</p>
+</li>
+<li>
+<p>（邓欣）<strong>Interpretable Multi-Modal Image Registration Network Based on Disentangled Convolutional Sparse Coding</strong></p>
+<p>==多模态图像匹配==</p>
+</li>
+<li>
+<p>（边松）同态线性变换加速 APAS: Application-specific accelerators for RLWE-based homomorphic linear transformations</p>
+<p>算法加速</p>
+</li>
+<li>
+<p>==通过混合可信执行环境保护隐私的医学图像分割==</p>
+</li>
+<li>
+<p>线上问诊个人信息隐写</p>
+</li>
+<li>
+<p>AI对抗攻击的防御、视频检测、恶意内容检测</p>
+</li>
+<li>
+<p><strong>人工智能安全现状概析</strong></p>
+</li>
+</ul>
+<p>在分析之前，我们首先来简单的介绍一下人工智能的应用。由于人工智能具有突出的数据分析、知识提取、自主学习等优点，被广泛应用在网络防护、数据管理、信息审查、智能安防、金融风控以及舆情监测等方面。在这些方面，往往存在若干安全风险，常见风险如下：</p>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.框架安全风险</span><br></pre></td></tr></table></figure>
+<p>近些年来，我们熟知的深度学习框架TensorFlow、Caffe等，及其依赖库被多次发现存在安全漏洞，这些漏洞可被攻击者利用，引发系统安全问题。</p>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">2.数据安全风险</span><br></pre></td></tr></table></figure>
+<p>攻击者可以通过网络的内部参数逆向获取网络训练的数据集；人工智能技术还会加强数据挖掘的能力，这加大了隐私泄露的风险，例如2018年3月的Facebook数据泄露事件。</p>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">3.算法安全风险</span><br></pre></td></tr></table></figure>
+<p>对于深度学习网络目标函数定义的不准确、不合理或者不正确也可能会导致错误甚至伤害性的结果。错误的目标函数、计算成本太高的目标函数、表达能力有限的网络都可能使网络产生错误的结果。例如，2018年3月，Uber自动驾驶汽车因机器视觉系统未及时识别路上突然出现的行人，导致与行人相撞，导致行人死亡的事故。</p>
+<p>算法存在偏见与人工智能的不可解释性也是一个重大的问题。之前美国利用人工智能算法预测犯罪的人，名单暴露，其中许多无辜的人被冤枉，并且被冤枉的人中大多数为黑人，并且对于决策算法中系统为什么做出这样的决策，即使它的开发者也无法给出合理的解释。</p>
+<p>对抗性样本的出现也会使算法出现误判的情况，如下图中加入少量的噪声，AI便将熊猫以很高的置信度识别成长臂猿。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2023/03/07/%E7%BD%91%E7%BB%9C%E5%88%9B%E6%96%B0%E5%AE%9E%E9%AA%8C/lab2/20210521211326751.png" alt="在这里插入图片描述"></p>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">4.信息安全风险</span><br></pre></td></tr></table></figure>
+<p>只要有足够的训练数据，人工智能就可以制作虚假的信息，用于不法活动。例如AI换脸技术DeepFakes，还有前段时间出现的DeepNude。一些不法分子利用虚假的语音与视频来实施zhapian。目前谷歌发明的聊天机器人在与人进行电话聊天时，已经完全能骗过人类。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>紫炁</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2023/03/22/%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86%E6%80%9D%E8%80%83%E9%A2%98/"></a>
+            
+            
+            <a class="next" rel="next" href="/2022/10/26/%E5%8C%BA%E5%9D%97%E9%93%BE/%E9%80%89%E5%81%9A%E4%B8%89%EF%BC%9A%E8%AE%A4%E8%AF%86%E5%AD%98%E5%82%A8%E7%BD%91%E7%BB%9C%EF%BC%9A%E6%89%8B%E5%8A%A8%E6%90%AD%E5%BB%BA%20IPFS%20%E7%8E%AF%E5%A2%83%E4%BB%A5%E5%8F%8A%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8%E7%9A%84%E5%BC%80%E5%8F%91/">选做三：认识存储网络：手动搭建 IPFS 环境以及简单应用的开发</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 紫炁 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="紫炁">
+
+
+
+
+
+<title>紫炁のBLOG</title>
+
+
+
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/猫爪.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Skye&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Skye&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title"></h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">紫炁</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 20, 2023&nbsp;&nbsp;21:34:19</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1>1.机器学习概论</h1>
+<h2 id="机器学习是什么">机器学习是什么</h2>
+<p><strong>机器学习就是让机器能自动找到一个函数（function）</strong></p>
+<ul>
+<li>语音识别（Speech Recognition）<br>
+输入是音频，输出是音频对应的文字。</li>
+<li>图像分类<br>
+输入是图片，输出是类别（比如猫、狗）。</li>
+<li>AlphaGo下围棋<br>
+输入是当前棋盘的状态，输出是下一步落棋的位置。</li>
+<li>对话/问答系统</li>
+</ul>
+<h2 id="机器能够找到哪些函数？">机器能够找到哪些函数？</h2>
+<p>为解决不同的问题、完成不同的任务，需要找到不同的函数，那机器学习能找到哪些函数呢？</p>
+<ul>
+<li>回归（Regression）<br>
+输出是一个连续的数值、标量，比如PM2.5预测。</li>
+<li>分类（Classification）<br>
+输出是一个离散的值。<br>
+二分类（Binary Classification）的输出就是0或1、Yes或No、…，比如文本情感分析的输出可以是正面和负面。<br>
+多分类（Multi-Category Classification）的输出就是[1,2,3,…,N]，比如图像分类里判断一张图片是猫还是狗还是杯子。</li>
+<li>生成（Generation）<br>
+很多教科书把机器学习划分为回归问题和分类问题，但其实不止这两种问题，还有其它问题，比如生成（Generation）。<br>
+生成（Generation）指让机器学习如何创造/生成，比如生成文本、图片等。生成式学习（chatGPT）</li>
+</ul>
+<h2 id="如何告诉机器我们希望找到什么函数">如何告诉机器我们希望找到什么函数</h2>
+<p>我们该如何为机器提供学习资料？</p>
+<ul>
+<li>有监督学习（Supervised Learning）<br>
+可以把有监督学习中的“监督”理解为“标签（Label）”，即数据集中不仅包括特征还包括标签。<br>
+有了标签，我们就可以评价一个函数的好坏，进而优化这个函数。<br>
+使用Loss判断函数的好坏，Loss越小，函数越好。<strong>个人想法：值得一提的是，Loss/评价指标是多样的、优化方法也是多样的。</strong></li>
+<li>强化学习（Reinforcement Learning）<br>
+原始的AlpahGo是先通过有监督学习优化到一定程度，然后用强化学习继续优化。<br>
+新版本的AlphaGo是完全通过强化学习实现的，优于原始的AlphaGo。</li>
+<li>无监督学习（Unsupervised Learning）<br>
+只给机器提供数据特征，但不提供数据标签。那机器能学到什么呢？</li>
+</ul>
+<p>下面以让机器学习下围棋为例：有监督学习VS强化学习。</p>
+<ul>
+<li>有监督学习<br>
+函数的输入（数据特征）就是棋盘状态，函数的输出（数据标签）就是下一步落棋的位置。<br>
+此时，我们需要为机器提供的数据就类似棋谱（如果现在棋局是这样，那下一步怎么落棋最好），<strong>但其实人类不一定知道怎么落棋最好</strong>。<br>
+<strong>个人想法：理论上，通过这样的有监督学习，机器是无法超越人类的。因为这样的有监督学习的本质是人类把自己的下棋策略教给机器，机器学习的内容仅仅是人类的下棋策略而无法“自主进行思考”，所以理论上机器是无法超越人类的。同时要注意，这里的人类指全人类。</strong></li>
+<li>强化学习<br>
+让机器跟自己、别人下棋，把结果（赢或输）作为Reward，引导机器学习如何下棋。<br>
+如果它赢了，那它就知道这一盘里有几步棋下得好，但不知道是哪几步；如果它输了，它就知道这一盘里有几步棋下得不好，但不知道是哪几步。<br>
+<strong>个人想法：理论上，通过这样的强化学习，机器是可以超过人类的。因为两者的学习材料没有本质区别，但机器的机能却优于人类，这里讲的机能包括信息共享能力、记忆能力、执行能力等方面</strong></li>
+</ul>
+<h2 id="机器如何找出我们想找到的函数">机器如何找出我们想找到的函数</h2>
+<ul>
+<li>我们要给定函数形式/范围（模型）<br>
+比如假定函数是线性模型、神经网络等等。<strong>模型就是一个函数集，模型的参数确定以后，才得到一个函数。</strong></li>
+<li>找到更好的函数：<br>
+使用梯度下降（Gradient Descent），找到更好的函数。</li>
+</ul>
+<h2 id="前沿研究">前沿研究</h2>
+<ul>
+<li>AI的可解释性（Explainable AI）<br>
+比如，机器为什么认为这张图片里有一只猫？</li>
+<li>对抗攻击（Adversarial Attack）<br>
+对输入故意添加一些人无法察觉的细微的干扰，导致模型以高置信度给出一个错误的输出。</li>
+<li>模型压缩（Network Compression）<br>
+把模型压缩以减少模型对计算资源消耗。</li>
+<li>异常检测（Anomaly Detection）<br>
+使机器知道它遇到了自己不知道的东西。</li>
+<li>迁移学习（Transfer Learning/Domain Adversarial Learning）<br>
+一个模型已经学到了一些知识，将这些知识应用到另一个任务中。</li>
+<li>元学习（Meta Learning）<br>
+让机器学习如何学习。<br>
+机器学习是我们教机器学习某种知识，元学习是我们教机器如何学习。</li>
+<li>终身学习（Life-Long Learning）<br>
+让机器终身学习，学习完任务1、再继续学任务2、……</li>
+</ul>
+<h2 id="机器学习的三个步骤">机器学习的三个步骤</h2>
+<ol>
+<li>确定模型（Model）/函数集（Function Set）</li>
+<li>确定如何评价函数的好坏</li>
+<li>确定如何找到最好的函数</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>紫炁</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2023/11/23/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0(%E6%9D%8E%E5%AE%8F%E6%AF%85)/2.Regression/"></a>
+            
+            
+            <a class="next" rel="next" href="/2023/03/22/%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86%E6%80%9D%E8%80%83%E9%A2%98/"></a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 紫炁 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>

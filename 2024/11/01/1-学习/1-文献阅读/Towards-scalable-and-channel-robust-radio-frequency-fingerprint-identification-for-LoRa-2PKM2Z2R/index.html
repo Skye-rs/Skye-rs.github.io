@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="紫炁">
+
+
+
+
+
+<title>紫炁のBLOG</title>
+
+
+
+    <link rel="icon" href="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/猫爪.png">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+
+
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Skye&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Skye&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title"></h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">紫炁</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 1, 2024&nbsp;&nbsp;16:23:09</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1>Towards scalable and channel-robust radio frequency fingerprint identification for LoRa</h1>
+<blockquote>
+<p>File:: <a href="zotero://open-pdf/library/items/E7UBRHI8">Shen 等, 2022</a><br>
+Style:: <span style="color: rgb(111, 69, 135)"><span style="background-color: rgb(232, 222, 238)">IF 6.3 </span></span><span style="color: rgb(204, 31, 0)"><span style="background-color: rgb(255, 226, 221)">SCI Q1 CCF A </span></span><span style="color: rgb(111, 69, 135)"><span style="background-color: rgb(232, 222, 238)">中科院 工程技术2区 </span></span>Author:: Guanxiong Shen; Junqing Zhang; Alan Marshall; Joseph R. Cavallaro<br>
+Year:: 2022<br>
+DOI:: 10.1109/TIFS.2022.3152404</p>
+</blockquote>
+<h2 id="文章基本框架">文章基本框架</h2>
+<h3 id="背景-2">背景</h3>
+<p>deep learning-based RFFI的逻辑是，接收数据-训练模型-识别，所以是闭集的，存在两个问题：</p>
+<ul>
+<li>
+<p>合法设备加入和离开时需要重新训练网络？</p>
+</li>
+<li>
+<p>恶意设备的特征会被网络尽量识别成最相似的合法设备</p>
+</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2024/11/01/1-%E5%AD%A6%E4%B9%A0/1-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/Towards-scalable-and-channel-robust-radio-frequency-fingerprint-identification-for-LoRa-2PKM2Z2R/G8R76QTY.png" alt="&lt;img alt=&quot;&quot; data-attachment-key=&quot;G8R76QTY&quot; width=&quot;951&quot; height=&quot;643&quot; src=&quot;attachments/G8R76QTY.png&quot; ztype=&quot;zimage&quot;&gt;"></p>
+<h3 id="目的-2">目的</h3>
+<p>引入注册阶段，用k-NN代替softmax层做识别</p>
+<h3 id="结论-2">结论</h3>
+<ul>
+<li>设计了一个基于深度度量学习的RFF提取器的可扩展RFFI框架，该框架使设备无需重新训练即可加入和离开。它通过使用预先训练的RFF提取器注册新设备或删除离开设备的记录来维护RFF数据库。</li>
+</ul>
+<h3 id="核心创新点">核心创新点</h3>
+<p>只把神经网络当成RFF提取器，然后维护一个RFF库，进行注册识别，识别用k-NN算法。这样做的好处是不用反复训练神经网络，只要训练一个能提取RFF的网络一直用就可以<br>
+首次使用多普勒频移来模拟真实信道并评估其性能。</p>
+<h2 id="方案概述">方案概述</h2>
+<p>构建信道无关的频谱图减轻信道效应，设计数据增强应对多径和多普勒频移的真实信道条件</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2024/11/01/1-%E5%AD%A6%E4%B9%A0/1-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/Towards-scalable-and-channel-robust-radio-frequency-fingerprint-identification-for-LoRa-2PKM2Z2R/W4AZX5Q6.png" alt="&lt;img alt=&quot;&quot; data-attachment-key=&quot;W4AZX5Q6&quot; width=&quot;923&quot; height=&quot;567&quot; src=&quot;attachments/W4AZX5Q6.png&quot; ztype=&quot;zimage&quot;&gt;"></p>
+<h2 id="技术细节">技术细节</h2>
+<h3 id="信号预处理">信号预处理</h3>
+<p>这里是LoRA信号。包括同步、载波频率偏移补偿和归一化。具体实现参见<span class="citation" data-citation="%7B%22citationItems%22%3A%5B%7B%22uris%22%3A%5B%22http%3A%2F%2Fzotero.org%2Fusers%2F13027531%2Fitems%2FWJ9R4YSH%22%5D%7D%5D%2C%22properties%22%3A%7B%7D%7D" ztype="zcitation">(<span class="citation-item"><a href="zotero://select/library/items/WJ9R4YSH">Shen 等, 2021</a></span>)</span></p>
+<ol>
+<li>同步，同步定位传输起点</li>
+<li>preamble提取，不学习整个包，有身份信息</li>
+<li>CFO偏移，RFFI的必要步骤，会降低系统性能</li>
+<li>归一化，归一化防止系统学习非特定于设备的接收功率。前导部分通过除以其均方根（RMS）进行归一化。</li>
+</ol>
+<h3 id="信道无关频谱图">信道无关频谱图</h3>
+<p>频谱图受到无线信道的影响，可以通过划分相邻列来减轻这种影响。STFT可以被认为是将s[n]分割成n个样本的M个片段，然后对每个片段执行FFT。硬件失真对频域中传输信号的总体影响表示为F（·）。因此，STFT复矩阵S可以排列为</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2024/11/01/1-%E5%AD%A6%E4%B9%A0/1-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/Towards-scalable-and-channel-robust-radio-frequency-fingerprint-identification-for-LoRa-2PKM2Z2R/EYHXU6WT.png" alt="&lt;img alt=&quot;&quot; data-attachment-key=&quot;EYHXU6WT&quot; data-annotation=&quot;%7B%22attachmentURI%22%3A%22http%3A%2F%2Fzotero.org%2Fusers%2F13027531%2Fitems%2FE7UBRHI8%22%2C%22annotationKey%22%3A%22VWJCJXRT%22%2C%22color%22%3A%22%23ffd400%22%2C%22pageLabel%22%3A%224%22%2C%22position%22%3A%7B%22pageIndex%22%3A3%2C%22rects%22%3A%5B%5B49.233%2C42.5%2C301.233%2C111.5%5D%5D%7D%2C%22citationItem%22%3A%7B%22uris%22%3A%5B%22http%3A%2F%2Fzotero.org%2Fusers%2F13027531%2Fitems%2FMYKUBMQ4%22%5D%2C%22locator%22%3A%224%22%7D%7D&quot; width=&quot;420&quot; height=&quot;115&quot; src=&quot;attachments/EYHXU6WT.png&quot; ztype=&quot;zimage&quot;&gt;"></p>
+<p>然后表示成</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2024/11/01/1-%E5%AD%A6%E4%B9%A0/1-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/Towards-scalable-and-channel-robust-radio-frequency-fingerprint-identification-for-LoRa-2PKM2Z2R/HNFKXMT2.png" alt="&lt;img alt=&quot;&quot; data-attachment-key=&quot;HNFKXMT2&quot; data-annotation=&quot;%7B%22attachmentURI%22%3A%22http%3A%2F%2Fzotero.org%2Fusers%2F13027531%2Fitems%2FE7UBRHI8%22%2C%22annotationKey%22%3A%22NHYGVTYQ%22%2C%22color%22%3A%22%23ffd400%22%2C%22pageLabel%22%3A%224%22%2C%22position%22%3A%7B%22pageIndex%22%3A3%2C%22rects%22%3A%5B%5B312.733%2C653.7%2C564.733%2C670.7%5D%5D%7D%2C%22citationItem%22%3A%7B%22uris%22%3A%5B%22http%3A%2F%2Fzotero.org%2Fusers%2F13027531%2Fitems%2FMYKUBMQ4%22%5D%2C%22locator%22%3A%224%22%7D%7D&quot; width=&quot;420&quot; height=&quot;28&quot; src=&quot;attachments/HNFKXMT2.png&quot; ztype=&quot;zimage&quot;&gt;"></p>
+<p>该实验中相邻信号段的时间间隔为128μs，可以假设<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>H</mi><mi>m</mi></msub><mo>=</mo><msub><mi>H</mi><mrow><mi>m</mi><mo>−</mo><mn>1</mn></mrow></msub></mrow><annotation encoding="application/x-tex">H_m=H_{m-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8917em;vertical-align:-0.2083em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0813em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span></span></span></span>是合理的，因为无线信道在这么短的时间内不会显著变化，所以可以用第m列除以第m+1列来消除信道的信息</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mo>=</mo><mo stretchy="false">[</mo><mi>F</mi><mo stretchy="false">(</mo><mi>X</mi><mn>2</mn><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi>F</mi><mo stretchy="false">(</mo><mi>X</mi><mn>1</mn><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>F</mi><mo stretchy="false">(</mo><mi>X</mi><mn>3</mn><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi>F</mi><mo stretchy="false">(</mo><mi>X</mi><mn>2</mn><mo stretchy="false">)</mo><mo separator="true">⋅</mo><mo separator="true">⋅</mo><mo separator="true">⋅</mo><mi>F</mi><mo stretchy="false">(</mo><mi>X</mi><mi>M</mi><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi>F</mi><mo stretchy="false">(</mo><mi>X</mi><mi>M</mi><mo>−</mo><mn>1</mn><mo stretchy="false">)</mo><mo stretchy="false">]</mo><mi mathvariant="normal">.</mi></mrow><annotation encoding="application/x-tex">Q= [ F (X2)/ F (X1), F (X3)/ F (X2) · · · F (XM )/ F (XM−1) ] .</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">Q</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord">2</span><span class="mclose">)</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord">1</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord">3</span><span class="mclose">)</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord">2</span><span class="mclose">)</span><span class="mpunct">⋅⋅⋅</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">XM</span><span class="mclose">)</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.10903em;">XM</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)]</span><span class="mord">.</span></span></span></span></p>
+<h3 id="数据增强">数据增强</h3>
+<p>数据增强的信道效应包括多径和多普勒频移</p>
+<p>多径由Power Delay Profile(PDP)描述，离散模型为</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>p</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><msub><mi>τ</mi><mi>d</mi></msub></mfrac><msup><mi>e</mi><mrow><mo>−</mo><mi>p</mi><msub><mi>T</mi><mi>s</mi></msub><mi mathvariant="normal">/</mi><msub><mi>τ</mi><mi>d</mi></msub></mrow></msup><mo separator="true">,</mo><mi>p</mi><mo>=</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mo separator="true">⋅</mo><mo separator="true">⋅</mo><mo separator="true">⋅</mo><mo separator="true">,</mo><msub><mi>p</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">P (p) = \frac{1}{τ_d} e^{−pT_s/τ_d} , p = 0, 1, · · · , p_{max}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathnormal">p</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.3389em;vertical-align:-0.4509em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.1132em;">τ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:-0.1132em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4509em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathnormal mtight">p</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">T</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1645em;"><span style="top:-2.357em;margin-left:-0.1389em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">s</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mord mtight">/</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.1132em;">τ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:-0.1132em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mpunct">,⋅⋅⋅,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">p</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">ma</span><span class="mord mathnormal mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> ,其中τd是RMS延迟扩展，pmax是最后一条路径的索引。</p>
+<p>还考虑了多普勒频移，以前的工作假设信道在分组时间内恒定，不适用LoRa</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2024/11/01/1-%E5%AD%A6%E4%B9%A0/1-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/Towards-scalable-and-channel-robust-radio-frequency-fingerprint-identification-for-LoRa-2PKM2Z2R/9RURVYT4.png" alt="&lt;img alt=&quot;&quot; data-attachment-key=&quot;9RURVYT4&quot; data-annotation=&quot;%7B%22attachmentURI%22%3A%22http%3A%2F%2Fzotero.org%2Fusers%2F13027531%2Fitems%2FE7UBRHI8%22%2C%22annotationKey%22%3A%22VCVSUIR4%22%2C%22color%22%3A%22%23ffd400%22%2C%22pageLabel%22%3A%224%22%2C%22position%22%3A%7B%22pageIndex%22%3A3%2C%22rects%22%3A%5B%5B34.3%2C494.7%2C302.8%2C735.7%5D%5D%7D%2C%22citationItem%22%3A%7B%22uris%22%3A%5B%22http%3A%2F%2Fzotero.org%2Fusers%2F13027531%2Fitems%2FMYKUBMQ4%22%5D%2C%22locator%22%3A%224%22%7D%7D&quot; width=&quot;448&quot; height=&quot;402&quot; src=&quot;attachments/9RURVYT4.png&quot; ztype=&quot;zimage&quot;&gt;"></p>
+<h3 id="网络">网络</h3>
+<p>改造CNN，由九个卷积层、一个平均池化层和一个512个神经元的密集层组成，还采用了残差结构。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2024/11/01/1-%E5%AD%A6%E4%B9%A0/1-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/Towards-scalable-and-channel-robust-radio-frequency-fingerprint-identification-for-LoRa-2PKM2Z2R/8DGFPDUT.png" alt="&lt;img alt=&quot;&quot; data-attachment-key=&quot;8DGFPDUT&quot; data-annotation=&quot;%7B%22attachmentURI%22%3A%22http%3A%2F%2Fzotero.org%2Fusers%2F13027531%2Fitems%2FE7UBRHI8%22%2C%22annotationKey%22%3A%22UD7LZK8U%22%2C%22color%22%3A%22%23ffd400%22%2C%22pageLabel%22%3A%225%22%2C%22position%22%3A%7B%22pageIndex%22%3A4%2C%22rects%22%3A%5B%5B331.8%2C228.95%2C525.8%2C466.45%5D%5D%7D%2C%22citationItem%22%3A%7B%22uris%22%3A%5B%22http%3A%2F%2Fzotero.org%2Fusers%2F13027531%2Fitems%2FMYKUBMQ4%22%5D%2C%22locator%22%3A%225%22%7D%7D&quot; width=&quot;323&quot; height=&quot;395&quot; src=&quot;attachments/8DGFPDUT.png&quot; ztype=&quot;zimage&quot;&gt;"></p>
+<h3 id="span-style-color-rgb-255-32-32-深度度量学习？-span"><span style="color: rgb(255, 32, 32)">深度度量学习？</span></h3>
+<p>输入数据投影到一个空间中，相似样本彼此靠近，不同样本远离</p>
+<p>每一步从训练集中选择由锚、阳性和阴性样本组成的三元组。具体到RFFI，锚和阳性样本是来自同一设备的数据包，阴性样本来自不同的设备。计算三重态损耗。三重态损失的目标是最小化锚点和正样本之间的欧几里德距离，同时最大化锚点和负样本之间的距离</p>
+<h2 id="实验-2">实验</h2>
+<h3 id="实现路径-框架">实现路径/框架</h3>
+<h4 id="注册">注册</h4>
+<p>k-NN分类器的训练阶段，简单记忆所有训练样本。每个合法设备需要先发100个数据包进行注册</p>
+<h4 id="识别">识别</h4>
+<p>1）恶意设备检测：异常检测问题。通过<strong>基于距离的k-NN异常检测算法</strong>实现的。提取接收到的数据包的RFF，并计算到RFF数据库中其K个最近邻居的平均距离作为检测分数，其数学表达式为</p>
+<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mrow><mi>a</mi><mi>v</mi><mi>g</mi></mrow></msub><mo>=</mo><mfrac><mn>1</mn><mi>K</mi></mfrac><mo>∑</mo><mo>=</mo><msub><mi>D</mi><mi>i</mi></msub></mrow><annotation encoding="application/x-tex">D_{avg} = \frac{1}{ K}∑=D_i</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">a</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">vg</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.1901em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">K</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop op-symbol small-op" style="position:relative;top:0em;">∑</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
+<p>评估指标是接收器工作特性（ROC）曲线。它揭示了在不同阈值设置下假阳性率（FPR）和真阳性率（TPR）之间的权衡。根据ROC曲线计算的曲线下面积（AUC）是另一个重要的评估指标。越接近1，检测性能越好。</p>
+<p>2）设备分类：设备分类系统采用多数投票k-NN算法实现。首先提取接收到的数据包的RFF，并根据欧几里德距离从数据库中选择其K个最近邻。然后将此数据包分配给K个邻居中最频繁的标签。</p>
+<p>评估指标是混淆矩阵和总体准确度，其定义为正确分类的样本除以测试样本的总数。对于流氓设备检测和设备分类，邻居数量K都设置为15。</p>
+<h4 id="实验组">实验组</h4>
+<p><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/2024/11/01/1-%E5%AD%A6%E4%B9%A0/1-%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB/Towards-scalable-and-channel-robust-radio-frequency-fingerprint-identification-for-LoRa-2PKM2Z2R/FSV2ULQU.png" alt="&lt;img alt=&quot;&quot; data-attachment-key=&quot;FSV2ULQU&quot; data-annotation=&quot;%7B%22attachmentURI%22%3A%22http%3A%2F%2Fzotero.org%2Fusers%2F13027531%2Fitems%2FE7UBRHI8%22%2C%22annotationKey%22%3A%22E7MVJVEZ%22%2C%22color%22%3A%22%23ffd400%22%2C%22pageLabel%22%3A%227%22%2C%22position%22%3A%7B%22pageIndex%22%3A6%2C%22rects%22%3A%5B%5B52.25%2C347.15%2C291.25%2C604.65%5D%5D%7D%2C%22citationItem%22%3A%7B%22uris%22%3A%5B%22http%3A%2F%2Fzotero.org%2Fusers%2F13027531%2Fitems%2FMYKUBMQ4%22%5D%2C%22locator%22%3A%227%22%7D%7D&quot; width=&quot;398&quot; height=&quot;429&quot; src=&quot;attachments/FSV2ULQU.png&quot; ztype=&quot;zimage&quot;&gt;"><br>
+很典型的对照实验。E1用的数据量最多，作为标准参照模型；DUT的设置还考虑了来自不同厂商的硬件。<span style="color: rgb(255, 203, 0)">E6的设置是为什么？</span></p>
+<p>测试时，DUT1-10在E1-3里都用了，所以评估提取已知设备性能。</p>
+<h3 id="效果图-结果">效果图/结果</h3>
+<blockquote>
+<p>记录文章的效果图或结果, 如模型效果图、实验结果、实验数据等</p>
+</blockquote>
+<h3 id="源码">源码</h3>
+<ul>
+<li>
+<p>作者源码地址: <a target="_blank" rel="noopener" href="https://github.com/gxhen/LoRa_RFFI">仓库链接</a></p>
+</li>
+<li>
+<p>数据集名称: <strong><span style="color: rgb(227, 114, 34)"><span style="background-color: rgb(248, 248, 248)">LoRa_RFFI_dataset</span></span></strong></p>
+<ul>
+<li>
+<p>数据集描述: <span style="color: rgb(36, 43, 52)"><span style="background-color: rgb(255, 255, 255)"> 射频信号采集自 60 个现成的商用 LoRa 设备。 提供了数据包前导部分和设备标签。 数据集由 19 个子数据集组成</span></span></p>
+</li>
+<li>
+<p>作者数据集下载地址: <a target="_blank" rel="noopener" href="https://github.com/gxhen/LoRa_RFFI">https://github.com/gxhen/LoRa_RFFI</a></p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="思考总结">思考总结</h2>
+<p>涉及了设备加入离开的可扩展性；考虑了恶意设备存在的安全性；进行了数据增强使方案具备信道鲁棒性。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>紫炁</span>
+                    </p>
+                
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/11/05/1-%E5%AD%A6%E4%B9%A0/3-%E4%B8%93%E4%B8%9A%E8%AF%BE%E7%A8%8B/MachineLearning/1.Introduction/"></a>
+            
+            
+            <a class="next" rel="next" href="/2024/10/11/1-%E5%AD%A6%E4%B9%A0/2-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%A7%86%E8%B7%9D%E6%97%A0%E7%BA%BF%E4%BC%A0%E8%BE%93%EF%BC%88Line%20of%20Sight,%20LOS%EF%BC%89/"></a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 紫炁 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+<script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+
+</html>
