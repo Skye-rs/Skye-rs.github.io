@@ -1504,13 +1504,6 @@ a {
 a:hover {
   color: #5b648f;
 }
-#site-title,
-#site-subtitle,
-#site-name,
-#aside-content .author-info__name,
-#aside-content .author-info__description {
-  font-family: Fangsong;
-}
 .is-center {
   text-align: center;
 }
@@ -2013,7 +2006,6 @@ figure.highlight pre .javascript .function {
   height: 100%;
   vertical-align: top;
   text-align: center;
-  font-family: Fangsong;
 }
 @media screen and (max-width: 768px) {
   .error404 #error-wrap .error-content .error-info {
@@ -3334,8 +3326,6 @@ h1.page-title + .tag-cloud-list {
   background: #5b648f;
   background-attachment: scroll;
   background-position: bottom;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
   background-size: cover;
 }
 #footer-wrap {
@@ -3364,8 +3354,6 @@ h1.page-title + .tag-cloud-list {
   width: 100%;
   background-color: #5b648f;
   background-position: center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
   background-size: cover;
   background-repeat: no-repeat;
   -webkit-transition: all 0.5s;
