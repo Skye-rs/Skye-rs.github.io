@@ -1,219 +1,348 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-
-<head>
-    <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-<meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-    <meta name="author" content="紫炁">
-
-
-
-
-
-<title>紫炁のBLOG</title>
-
-
-
-    <link rel="icon" href="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/猫爪.png">
-
-
-
-
-    <!-- stylesheets list from _config.yml -->
-    
-    <link rel="stylesheet" href="/css/style.css">
-    
-
-
-
-    <!-- scripts list from _config.yml -->
-    
-    <script src="/js/script.js"></script>
-    
-    <script src="/js/tocbot.min.js"></script>
-    
-
-
-
-    
-    
-        <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-    "HTML-CSS": {
-        preferredFont: "TeX",
-        availableFonts: ["STIX","TeX"],
-        linebreaks: { automatic:true },
-        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
-    },
-    tex2jax: {
-        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
-        processEscapes: true,
-        ignoreClass: "tex2jax_ignore|dno",
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-        equationNumbers: { autoNumber: "AMS" },
-        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
-        Macros: { href: "{}" }
-    },
-    messageStyle: "none"
-    });
-</script>
-<!-- 给MathJax元素添加has-jax class -->
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for(i=0; i < all.length; i += 1) {
-            all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-    });
-</script>
-<!-- 通过连接CDN加载MathJax的js代码 -->
-<script type="text/javascript" async
-        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-
-
-    
-
-
-<meta name="generator" content="Hexo 6.0.0"></head>
-
-<body>
-    <script>
-        // this function is used to check current theme before page loaded.
-        (() => {
-            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
-            const isDark = currentTheme === 'dark';
-            const pagebody = document.getElementsByTagName('body')[0]
-            if (isDark) {
-                pagebody.classList.add('dark-theme');
-                // mobile
-                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
-            } else {
-                pagebody.classList.remove('dark-theme');
-                // mobile
-                document.getElementById("mobile-toggle-theme").innerText = "· Light"
-            }
-        })();
-    </script>
-
-    <div class="wrapper">
-        <header>
-    <nav class="navbar">
-        <div class="container">
-            <div class="navbar-header header-logo"><a href="/">Skye&#39;s Blog</a></div>
-            <div class="menu navbar-right">
-                
-                    <a class="menu-item" href="/archives">Posts</a>
-                
-                    <a class="menu-item" href="/categories">Categories</a>
-                
-                    <a class="menu-item" href="/tags">Tags</a>
-                
-                    <a class="menu-item" href="/about">About</a>
-                
-                <input id="switch_default" type="checkbox" class="switch_default">
-                <label for="switch_default" class="toggleBtn"></label>
-            </div>
-        </div>
-    </nav>
-
-    
-    <nav class="navbar-mobile" id="nav-mobile">
-        <div class="container">
-            <div class="navbar-header">
-                <div>
-                    <a href="/">Skye&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
-                </div>
-                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
-            </div>
-            <div class="menu" id="mobile-menu">
-                
-                    <a class="menu-item" href="/archives">Posts</a>
-                
-                    <a class="menu-item" href="/categories">Categories</a>
-                
-                    <a class="menu-item" href="/tags">Tags</a>
-                
-                    <a class="menu-item" href="/about">About</a>
-                
-            </div>
-        </div>
-    </nav>
-
-</header>
-<script>
-    var mobileBtn = function f() {
-        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
-        var mobileMenu = document.getElementById("mobile-menu");
-        if(toggleMenu.classList.contains("active")){
-           toggleMenu.classList.remove("active")
-            mobileMenu.classList.remove("active")
-        }else{
-            toggleMenu.classList.add("active")
-            mobileMenu.classList.add("active")
-        }
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Skye's Blog</title><meta name="author" content="Skye"><meta name="copyright" content="Skye"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="google-site-verification" content="Y8-byy33vSaaMSOPOkXTMuZiZAKg9KpMrhhoRPM2Gl0"><meta name="msvalidate.01" content="EB5AF7481147F36FF84337832585ED56"><meta name="baidu-site-verification" content="code-CC7Vu7rcJh"><meta property="og:type" content="website">
+<meta property="og:title" content="Skye&#39;s Blog">
+<meta property="og:url" content="http://skye-rs.github.io/index.html">
+<meta property="og:site_name" content="Skye&#39;s Blog">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/%E5%A4%B4%E5%83%8F.jpg">
+<meta property="article:author" content="Skye">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/%E5%A4%B4%E5%83%8F.jpg"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/猫爪.png"><link rel="canonical" href="http://skye-rs.github.io/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.json","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
     }
-</script>
-            <div class="main">
-                
-    <div class="container profile-container">
-    <div class="intro">
-        <div class="avatar">
-            <a href="/archives"><img src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/头像.jpg"></a>
-        </div>
-        <div class="nickname">紫炁</div>
-        <div class="description"><p>Because forever is in your eyes, <br>But forever ain’t half the time</p>
-</div>
-        <div class="links">
-            
-                
-                    <a class="link-item" title="Blog" target="_blank" rel="noopener" href="https://www.cnblogs.com/skye-rs/">
-                        
-                        
-                            <i class="iconfont icon-blog"></i>
-                        
-                    </a>
-                
-                    <a class="link-item" title="ZhiHu" target="_blank" rel="noopener" href="https://www.zhihu.com/people/ying-huo-65-84/posts">
-                        
-                        
-                            <i class="iconfont icon-zhihu"></i>
-                        
-                    </a>
-                
-                    <a class="link-item" title="Github" target="_blank" rel="noopener" href="https://github.com/Skye-rs">
-                        
-                        
-                            <i class="iconfont icon-github"></i>
-                        
-                    </a>
-                
-            
-        </div>
-    </div>
-</div>
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Skye\'s Blog',
+  isPost: false,
+  isHome: true,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2025-07-10 20:28:15'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/mycss.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/头像.jpg" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/friend_404.jpg'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/index.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Skye's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="site-info"><h1 id="site-title">Skye's Blog</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://www.cnblogs.com/skye-rs/" target="_blank" title="Cnblogs"><i class="fa-solid fa-link"></i></a><a class="social-icon" href="mailto:1908473296@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts" id="recent-posts"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86%E6%80%9D%E8%80%83%E9%A2%98/%E9%80%9A%E4%BF%A1%E5%8E%9F%E7%90%86%E6%80%9D%E8%80%83%E9%A2%98.html" title="无题">无题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-03-22T07:28:55.386Z" title="发表于 2023-03-22 15:28:55">2023-03-22</time></span></div><div class="content">第一章 绪论
+1-1 以无线广播和电视为例,说明图1-3模型中信源、信宿及信道包含的具体内容是什么?
 
 
+信源的作用是把各种消息转换成原始电信号。信宿是信源的逆过程
+
+
+信源：无线广播的信源是把声音转换为电信号的设备，电视的是从影像转换成电信号的设备
+信宿：无线广播的信源是把电信号转换为声音的设备，电视的是从影像转换成电信号的设备
+信道：分别是载有声音和影像的无线电波
+
+1-2 何谓数字信号?何谓模拟信号?两者的根本区别是什么?
+
+数字信号——载荷消息的信号参量只有有限个取值（电报机、计算机输出的信号）
+模拟信号——载荷消息的信号参量取值是连续的，连续指在某一取值范围内可以取无穷多个值，在时间上不一定连续。（x方向不一定连续，y方向一定连续）
+二者的根本区别是信号参量的取值是有限个还是无限个
+
+1-3 何谓数字通信?数字通信有哪些优缺点?
+
+数字通信系统是利用数字信号来传递信息的通信系统。
+优点
+
+抗干扰能力强，噪声不积累。因为只用判断是哪一个波形不用完全还原；特有抽样判决再生（？）的接收方式，使数字信号再生且噪声不积累。
+传输差错可控。信道编码技术进行查错纠错
+使用现代数字信号处理技 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/%E7%BD%91%E7%BB%9C%E5%88%9B%E6%96%B0%E5%AE%9E%E9%AA%8C/lab2.html" title="无题">无题</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2023-03-07T08:14:30.115Z" title="发表于 2023-03-07 16:14:30">2023-03-07</time></span></div><div class="content">会议
+
+
+CVPR是 IEEE Conference on Computer Vision and Pattern Recognition的缩写，即IEEE国际 计算机视觉 与 模式识别 会议。该会议是由IEEE举办的计算机视觉和模式识别领域的顶级会议。
+
+
+Usenix Security Symposium (USENIX Security)，是网络安全领域四大最高级别的国际学术会议之一，始于上世纪90年代初，曾经发表难度极高，近几年录取量才开始放开。USENIX Security是CCF推荐A类会议，Core Conference Ranking A*类会议，H-5指数80，Impact Score 13.04。USENIX Security录用的文章基本限于hardcore systems类型。
+
+
+Transactions on Information Forensics &amp; Security
+
+
+DAC，全称 Proceedings of the ACM/EDAC/IEEE Design Automation Conference。DAC是以电子设计系统（(EDA）、 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/%E5%8C%BA%E5%9D%97%E9%93%BE/%E9%80%89%E5%81%9A%E4%B8%89%EF%BC%9A%E8%AE%A4%E8%AF%86%E5%AD%98%E5%82%A8%E7%BD%91%E7%BB%9C%EF%BC%9A%E6%89%8B%E5%8A%A8%E6%90%AD%E5%BB%BA%20IPFS%20%E7%8E%AF%E5%A2%83%E4%BB%A5%E5%8F%8A%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8%E7%9A%84%E5%BC%80%E5%8F%91.html" title="选做三：认识存储网络：手动搭建 IPFS 环境以及简单应用的开发">选做三：认识存储网络：手动搭建 IPFS 环境以及简单应用的开发</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-26T07:54:27.000Z" title="发表于 2022-10-26 15:54:27">2022-10-26</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E9%AA%8C/">区块链实验</a></span></div><div class="content">实验 1 远程登录服务器
+两台服务器选择了腾讯云服务器的台Ubuntu-20.04-LTS-x64系统，默认具备SSH服务。
+本实验中使用vscode进行远程操作，打开两个终端分别登录两台远程服务器
+![image-20221027192005244](选做三：认识存储网络：手动搭建 IPFS 环境以及简单应用的开发/image-20221027192005244.png)
+![image-20221027192059321](选做三：认识存储网络：手动搭建 IPFS 环境以及简单应用的开发/image-20221027192059321.png)
+可以看到远程登录成功
+实验 2 依赖环境安装
+
+
+编辑器使用系统自带的nano编辑器
+
+
+go语言安装
+执行命令
+wget -4 -c https://dl.google.com/go/go1.12.7.linux-amd64.tar.gz
+解压到/usr/local，加入环境变量
+export PATH=$PATH:/usr/local/go/bin
+使其生效
+source ~/.profile
+验证
+![image-2022102719 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/20373540_%E9%99%88%E6%98%A5%E8%95%8A_%E4%BF%A1%E5%8F%B7%E7%AC%AC%E5%9B%9B%E6%AC%A1%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A.html" title="实验四 信号的傅里叶变换">实验四 信号的傅里叶变换</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-14T07:54:27.000Z" title="发表于 2022-10-14 15:54:27">2022-10-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F/">信号与系统</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/MATLAB%E5%AE%9E%E9%AA%8C/">MATLAB实验</a></span></div><div class="content">实验内容
+题目一
+
+给定一连续 LTI 系统，描述其输入与输出关系的微分方程为：
+𝑑2(𝑦(𝑡))𝑑𝑡2+5𝑑(𝑦(𝑡))𝑑𝑡+3𝑦(𝑡)=𝑥(𝑡) \frac{𝑑 ^2 (𝑦(𝑡))}{𝑑𝑡 ^2} + 5 \frac{𝑑(𝑦(𝑡))}{ 𝑑𝑡} + 3𝑦(𝑡) = 𝑥(𝑡) 
+dt2d2(y(t))​+5dtd(y(t))​+3y(t)=x(t)
+分别绘制系统的幅频响应、相频响应、频率响应的实部和频率响应的虚部（共四张图），要求频域上计算点数不少于 500 点，各个图标注清晰。其中，求解频率响应可以通过 freqs 函数实现；计算 复数幅度应使用 abs 函数，计算复数相角应使用 angle 函数，计算 复数实部应使用 real 函数，计算复数虚部应使用 imag 函数。
+
+代码
+close all;clear all;a = [1 5 3];b = [1];w = -2 * pi : 0.01 : 2 * pi;h = freqs(b, a, w);%幅频响应、相频响应、频率响应的实部和频率响应的虚部（共四张图）ax1 =  ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E5%85%AD.html" title="实验六 简单Dapp的开发">实验六 简单Dapp的开发</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-14T07:54:27.000Z" title="发表于 2022-10-14 15:54:27">2022-10-14</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E9%AA%8C/">区块链实验</a></span></div><div class="content">实验1 会议报名登记系统的基本功能与实现
+实验流程
+
+系统功能要求：
+合约参与方包含一个管理员以及其余参与者，管理员可以发起不止一个会议，并指定会议信息以及总人数。
+参与者首先需要进行注册，将个人基本信息与以太坊地址相关联，并存储在合约上。
+之后可进行报名，或委托他人为自己报名。
+当会议报名人满时，该会议将不再可报名。
+当合约内某些数据发生变化时，应能够触发事件（event）使前端重新获取并渲染数据，例如当某个会议报名人满时，应触发相应事件使前端及时更新可报名会议列表。
+
+按功能要求与模板文件补全代码中的委托函数及为受托者报名函数。
+在 delegate函数中建立受托人到其委托人的一个映射，然后在enrollFor函数中实现受托人为委托人报名功能，首先由username找到受托人，后续报名流程仿写enroll,更换报名对象即可，该部分代码如下：
+function delegate(address addr) public&#123;		trustees[addr].push(participants[msg.sender]);	&#125;	function enrollFor(str ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/20373540_%E9%99%88%E6%98%A5%E8%95%8A_%E4%BF%A1%E5%8F%B7%E7%AC%AC%E4%B8%89%E6%AC%A1%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A.html" title="信号与系统第三次实验">信号与系统第三次实验</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-10T07:54:27.000Z" title="发表于 2022-10-10 15:54:27">2022-10-10</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F/">信号与系统</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/MATLAB%E5%AE%9E%E9%AA%8C/">MATLAB实验</a></span></div><div class="content">实验内容
+题目一
+
+对周期为 4 的方波信号𝑓(𝑡)进行谐波分析，使用多张子图分别绘制 1 至 3 次谐波、1 至 9 次谐波、1 至 33 次谐波、1 至 99 次谐波叠加时的图像，并在每个子图中同时画出原始方波信号𝑓(𝑡)的图像。绘图区间至少包括两个完整的方波周期并有完整标注。可以 手算求解傅里叶级数系数，也可以通过代码仿真计算。𝑓(𝑡)波形如图 1 所示。
+
+
+**解：**该方波信号周期为4，且为奇函数，故an=0a_n=0an​=0，所以
+f(t)=∑n=1∞bnsin⁡(nωt)f(t)=\sum_{n=1}^{\infty} b_n \sin (n \omega t)
+f(t)=n=1∑∞​bn​sin(nωt)
+计算得到
+bn={0n=2,4,6,⋯2nπn=1,3,5,⋯b_n=\left\{\begin{array}{cc}
+0 &amp; n=2,4,6, \cdots \\
+\frac{2}{n \pi} &amp; n=1,3,5, \cdots
+\end{array}\right.
+bn​={0nπ2​​n=2,4,6,⋯n=1,3,5,⋯​
+该方 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E4%BA%94.html" title="实验五">实验五</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-09T07:54:27.000Z" title="发表于 2022-10-09 15:54:27">2022-10-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E9%AA%8C/">区块链实验</a></span></div><div class="content">实验1 Solidity基础
+实验流程
+
+新建文件AnimalIncubators.sol
+建立一个基础合约 AnimalIncubators，并指定Solidity编译器版本
+创建宠物结构体与所用常量，及公共数组animals[]
+依据描述完成_createAnimal、_generateRandomDna、createRandomAnimal三个函数
+
+实验代码
+pragma solidity &gt;=0.4.12 &lt;0.6.0;contract Animallncubators &#123;    uint dnaDigits = 16;    uint dnaLength = 10**16;    struct Animal &#123;        uint dna;        string name;    &#125;    Animal[] public animals;    event NewAnimal(uint AnimalId, string name, uint dna);    function _createAnimal(string _n ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/%E5%8C%BA%E5%9D%97%E9%93%BE/20373540-%E9%99%88%E6%98%A5%E8%95%8A-%E5%AE%9E%E9%AA%8C%E5%9B%9B.html" title="实验四">实验四</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-10-04T07:54:27.000Z" title="发表于 2022-10-04 15:54:27">2022-10-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/XuperChain/">XuperChain</a></span></div><div class="content">实验1
+1）
+在[网站](Block #364292: 000000000000000003dd2fdbb484d6d9c349d644d8bbb3cbfa5e67f639a465fe · Bitcoin Explorer - Blockstream.info](https://blockstream.info/block/000000000000000003dd2fdbb484d6d9c349d644d8bbb3cbfa5e67f639a465fe?expand))中获得了如下信息：
+
+
+分析该区块的两个交易，第二个交易每次额度都是0.00001BTC，总共进行了5569次，这种价格极小数量极多的交易类似于对服务器进行了DDOS攻击，区块链系统设计时没有考虑这种情况，这样的交易对服务器运行效率有较大影响
+2）
+
+访问https://btc.com/stats/diff ，可以看到
+
+难度调整间隔是4天3小时
+难度变化趋势整体上升，带来的影响是计算区块越来越困难，需要消耗更多算力
+平均算力计算：难度除以平均出块时间
+
+3）
+调用API：
+PS C:\Users\lenovo&gt; c ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/%E5%8C%BA%E5%9D%97%E9%93%BE/%E9%99%88%E6%98%A5%E8%95%8A-20373540-%E5%AE%9E%E9%AA%8C%E4%B8%89.html" title="实验三">实验三</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-09-29T07:54:27.000Z" title="发表于 2022-09-29 15:54:27">2022-09-29</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/">区块链</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E9%AA%8C/">区块链实验</a></span></div><div class="content">实验 1 熟悉 Bitcoin Core 的基本配置方法
+1.1 熟悉比特币客户端的配置方法
+本实验在Linux下完成配置
+在Ubuntu中依次执行：
+mkdir /walletcd /walletwget https://bitcoincore.org/bin/bitcoin-core-0.15.2/bitcoin-0.15.2-x86_64-linux-gnu.tar.gzcd bitcoin-0.15.2/binln -s /home/skye/Desktop/wallet/bitcoin-0.15.2/bin/bitcoind /usr/bin/bitcoindln -s /home/skye/Desktop/wallet/bitcoin-0.15.2/bin/bitcoin-cli /usr/bin/bitcoin-cliln -s /home/skye/Desktop/wallet/bitcoin-0.15.2/bin/bitcoin-qt /usr/bin/bitcoin-qt
+成功安装好：
+
+在根目录下新建.bitcoin,新建bitcoin.conf文件，文件内容如下 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/MATLAB%E4%BF%A1%E5%8F%B7%E4%BB%BF%E7%9C%9F%E5%AE%9E%E9%AA%8C/20373540_%E9%99%88%E6%98%A5%E8%95%8A_%E4%BF%A1%E5%8F%B7%E7%AC%AC2%E6%AC%A1%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A.html" title="信号与系统第二次实验">信号与系统第二次实验</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time datetime="2022-09-28T07:54:27.000Z" title="发表于 2022-09-28 15:54:27">2022-09-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F/">信号与系统</a></span><span class="article-meta tags"><span class="article-meta-separator">|</span><i class="fas fa-tag"></i><a class="article-meta__tags" href="/tags/MATLAB%E5%AE%9E%E9%AA%8C/">MATLAB实验</a></span></div><div class="content">实验内容
+题目一
+系统输入为𝑥(𝑡)=𝑒−𝑡cos(3𝑡)(𝑢(𝑡)−𝑢(𝑡−2))𝑥(𝑡) = 𝑒 ^{−𝑡} cos(3𝑡) (𝑢(𝑡) − 𝑢(𝑡 − 2))x(t)=e−tcos(3t)(u(t)−u(t−2))，其冲激响应ℎ(𝑡) = 𝑡−1𝑡 ^{−1}t−1 (𝑢(𝑡 − 1) − 𝑢(𝑡 − 3))，计算其输出𝑦(𝑡) = 𝑥(𝑡) ∗ℎ(𝑡) （可调用函数 conv）。在多张子图上绘制𝑥(𝑡)、ℎ(𝑡)及𝑦(𝑡)的图像， 绘图区间均为[-1, 6]；要求有坐标轴标注（xlabel,ylabel）以及图题 （title）
+踩坑点
+最开始十分直接的写完x(t)和h(t)求卷积就画图了，直接报错，经一番排查发现需要注意两点：
+
+
+虽然ℎ(𝑡) = 𝑡−1𝑡 ^{−1}t−1 (𝑢(𝑡 − 1) − 𝑢(𝑡 − 3)),但若直接写为h=(Heaviside(t-1)-Heaviside(t-3))./t;MatLab计算过程1中会出现NaN，这是由于在t=0t=0t=0处，h(t)h(t)h( ...</div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><a class="page-number" href="/page/3/#content-inner">3</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/头像.jpg" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/friend_404.jpg'" alt="avatar"/></div><div class="author-info__name">Skye</div><div class="author-info__description"></div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">30</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Skye-rs"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://www.cnblogs.com/skye-rs/" target="_blank" title="Cnblogs"><i class="fa-solid fa-link"></i></a><a class="social-icon" href="mailto:1908473296@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">醉后不知天在水,满船清梦压星河<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://cdn.jsdelivr.net/gh/Skye-rs/CDN/image/loading.gif" data-original="/img/公告.gif"></div></div><div class="sticky_layout"><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            
             </div>
-            <footer id="footer" class="footer">
-    <div class="copyright">
-        <span>© 紫炁 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
-    </div>
-</footer>
+            <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item parent"><a class="card-category-list-link" href="/categories/CTF/"><span class="card-category-list-name">CTF</span><span class="card-category-list-count">3</span><i class="fas fa-caret-left "></i></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/CTF/web/"><span class="card-category-list-name">web</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"><span class="card-category-list-name">个人博客搭建</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%BF%A1%E5%8F%B7%E4%B8%8E%E7%B3%BB%E7%BB%9F/"><span class="card-category-list-name">信号与系统</span><span class="card-category-list-count">4</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/"><span class="card-category-list-name">区块链</span><span class="card-category-list-count">8</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E5%AF%86%E7%A0%81%E5%AD%A6/"><span class="card-category-list-name">密码学</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item parent"><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="card-category-list-name">数据结构</span><span class="card-category-list-count">3</span><i class="fas fa-caret-left "></i></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E6%A0%91/"><span class="card-category-list-name">树</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/%E9%93%BE%E8%A1%A8/"><span class="card-category-list-name">链表</span><span class="card-category-list-count">1</span></a></li></ul></li><li class="card-category-list-item parent"><a class="card-category-list-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/"><span class="card-category-list-name">算法笔记</span><span class="card-category-list-count">3</span><i class="fas fa-caret-left "></i></a><ul class="card-category-list child"><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/%E6%8E%92%E5%BA%8F/"><span class="card-category-list-name">排序</span><span class="card-category-list-count">2</span></a></li></ul></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/"><span class="card-category-list-name">语言学习</span><span class="card-category-list-count">4</span></a></li>
+            </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/hexo/" style="font-size: 1.15em; color: rgb(96, 67, 46)">hexo</a><a href="/tags/Web%E5%AE%89%E5%85%A8/" style="font-size: 1.22em; color: rgb(122, 119, 192)">Web安全</a><a href="/tags/kali/" style="font-size: 1.15em; color: rgb(182, 31, 104)">kali</a><a href="/tags/MATLAB%E5%AE%9E%E9%AA%8C/" style="font-size: 1.38em; color: rgb(114, 184, 146)">MATLAB实验</a><a href="/tags/%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81/" style="font-size: 1.15em; color: rgb(16, 20, 59)">古典密码</a><a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE%E5%AE%9E%E9%AA%8C/" style="font-size: 1.38em; color: rgb(197, 153, 30)">区块链实验</a><a href="/tags/XuperChain/" style="font-size: 1.22em; color: rgb(9, 74, 128)">XuperChain</a><a href="/tags/%E5%8C%BA%E5%9D%97%E9%93%BE/" style="font-size: 1.15em; color: rgb(13, 73, 120)">区块链</a><a href="/tags/%E8%A1%A8%E8%BE%BE%E5%BC%8F/" style="font-size: 1.15em; color: rgb(153, 168, 131)">表达式</a><a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.45em; color: rgb(86, 176, 35)">C语言</a><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.22em; color: rgb(41, 121, 182)">数据结构</a><a href="/tags/%E6%A0%91/" style="font-size: 1.15em; color: rgb(37, 178, 169)">树</a><a href="/tags/%E9%93%BE%E8%A1%A8/" style="font-size: 1.15em; color: rgb(168, 77, 99)">链表</a><a href="/tags/Go/" style="font-size: 1.15em; color: rgb(31, 191, 19)">Go</a><a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 1.3em; color: rgb(191, 112, 72)">算法</a><a href="/tags/%E5%BF%AB%E6%8E%92/" style="font-size: 1.22em; color: rgb(114, 50, 53)">快排</a><a href="/tags/JavaScript/" style="font-size: 1.15em; color: rgb(162, 47, 106)">JavaScript</a><a href="/tags/PHP/" style="font-size: 1.15em; color: rgb(98, 97, 103)">PHP</a><a href="/tags/python/" style="font-size: 1.15em; color: rgb(192, 120, 68)">python</a><a href="/tags/%E6%A0%88/" style="font-size: 1.15em; color: rgb(176, 64, 47)">栈</a></div></div><div class="card-widget card-archives"><div class="item-headline"><i class="fas fa-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2023/03/"><span class="card-archive-list-date">三月 2023</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/10/"><span class="card-archive-list-date">十月 2022</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/09/"><span class="card-archive-list-date">九月 2022</span><span class="card-archive-list-count">6</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/08/"><span class="card-archive-list-date">八月 2022</span><span class="card-archive-list-count">1</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/04/"><span class="card-archive-list-date">四月 2022</span><span class="card-archive-list-count">2</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/03/"><span class="card-archive-list-date">三月 2022</span><span class="card-archive-list-count">4</span></a></li><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2022/02/"><span class="card-archive-list-date">二月 2022</span><span class="card-archive-list-count">9</span></a></li></ul></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站资讯</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">30</div></div><div class="webinfo-item"><div class="item-name">已运行时间 :</div><div class="item-count" id="runtimeshow" data-publishDate="2022-02-13T16:00:00.000Z"></div></div><div class="webinfo-item"><div class="item-name">本站总字数 :</div><div class="item-count">40.7k</div></div><div class="webinfo-item"><div class="item-name">本站访客数 :</div><div class="item-count" id="busuanzi_value_site_uv"></div></div><div class="webinfo-item"><div class="item-name">本站总访问量 :</div><div class="item-count" id="busuanzi_value_site_pv"></div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2025-07-10T12:28:15.842Z"></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2025 By Skye</div><div class="footer_custom_text">In delay there lies no plenty, Then come kiss me, sweet and twenty, <br>Youth's a stuff that will not endure</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">本地搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
 
-    </div>
-<script>
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function subtitleType () {
+  if (true) { 
+    window.typed = new Typed("#subtitle", {
+      strings: ["迟迟钟鼓初长夜 耿耿星河欲曙天","Sometimes ever, sometimes never.","惊鸿难抵梦重重."],
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50
+    })
+  } else {
+    document.getElementById("subtitle").innerHTML = '迟迟钟鼓初长夜 耿耿星河欲曙天'
+  }
+}
+
+if (true) {
+  if (typeof Typed === 'function') {
+    subtitleType()
+  } else {
+    getScript('https://cdn.jsdelivr.net/npm/typed.js/lib/typed.min.js').then(subtitleType)
+  }
+} else {
+  subtitleType()
+}</script><script>(() => {
+  const $mermaidWrap = document.querySelectorAll('#article-container .mermaid-wrap')
+  if ($mermaidWrap.length) {
+    window.runMermaid = () => {
+      window.loadMermaid = true
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+      Array.from($mermaidWrap).forEach((item, index) => {
+        const mermaidSrc = item.firstElementChild
+        const mermaidThemeConfig = '%%{init:{ \'theme\':\'' + theme + '\'}}%%\n'
+        const mermaidID = 'mermaid-' + index
+        const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+        mermaid.mermaidAPI.render(mermaidID, mermaidDefinition, (svgCode) => {
+          mermaidSrc.insertAdjacentHTML('afterend', svgCode)
+        })
+      })
+    }
+
+    const loadMermaid = () => {
+      window.loadMermaid ? runMermaid() : getScript('https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js').then(runMermaid)
+    }
+
+    window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
             window.imageLazyLoadSetting = {
                 isSPA: false,
                 preloadRatio: 1,
                 processImages: null,
             };
-        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(n){n.imageLazyLoadSetting.processImages=o;var e=n.imageLazyLoadSetting.isSPA,i=n.imageLazyLoadSetting.preloadRatio||1,r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function o(){e&&(r=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")));for(var t,a=0;a<r.length;a++)0<=(t=(t=r[a]).getBoundingClientRect()).bottom&&0<=t.left&&t.top<=(n.innerHeight*i||document.documentElement.clientHeight*i)&&function(){var t,e,n,i,o=r[a];t=o,e=function(){r=r.filter(function(t){return o!==t})},n=new Image,i=t.getAttribute("data-original"),n.onload=function(){t.src=i,e&&e()},t.src!==i&&(n.src=i)}()}o(),n.addEventListener("scroll",function(){var t,e;t=o,e=n,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(e)},500)})}(this);</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
-
-</html>
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z\d\-\.\+]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(t.test(e.href)||r.test(e.href))&&(e.href=a.dataset.original)})});</script><script>(r=>{r.imageLazyLoadSetting.processImages=t;var a=r.imageLazyLoadSetting.isSPA,o=r.imageLazyLoadSetting.preloadRatio||1,d=i();function i(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(t){(a||t)&&(d=i());for(var e,n=0;n<d.length;n++)0<=(e=(e=d[n]).getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(r.innerHeight*o||document.documentElement.clientHeight*o)&&(()=>{var t,e,a,o,i=d[n];e=function(){d=d.filter(function(t){return i!==t}),r.imageLazyLoadSetting.onImageLoaded&&r.imageLazyLoadSetting.onImageLoaded(i)},(t=i).dataset.loaded||(t.hasAttribute("bg-lazy")?(t.removeAttribute("bg-lazy"),e&&e()):(a=new Image,o=t.getAttribute("data-original"),a.onload=function(){t.src=o,t.removeAttribute("data-original"),t.setAttribute("data-loaded",!0),e&&e()},a.onerror=function(){t.removeAttribute("data-original"),t.setAttribute("data-loaded",!1),t.src=o},t.src!==o&&(a.src=o)))})()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),r.addEventListener("resize",e),r.addEventListener("orientationchange",e)})(this);</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"rect":"opacity:0.7","log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
